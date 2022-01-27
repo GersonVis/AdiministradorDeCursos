@@ -7,8 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>BIENVENIDO AL SITIO</h1>
-    <?php  require_once 'views/header.php';?>
-    <?php  require_once 'views/footer.php';?>
+    <h1>Seccion de ayuda</h1>
+    <h2><?php
+        echo $this->mensaje;
+    ?></h2>
 </body>
 </html>

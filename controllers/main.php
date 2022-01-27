@@ -5,6 +5,7 @@
         parent::__construct();
         $this->view->renderizar('main/index');
        }
+       
        public function Saludo()
        {
            echo "hola estamos saludando";

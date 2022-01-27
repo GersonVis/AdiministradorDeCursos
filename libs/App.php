@@ -1,9 +1,10 @@
 <?php
-require_once "controllers/errores/errorControlador.php";
-require_once "controllers/errores/errorMetodo.php";
 require_once "libs/controller.php";
 require_once "libs/view.php";
 require_once "libs/model.php";
+require_once "controllers/errores/errorControlador.php";
+require_once "controllers/errores/errorMetodo.php";
+
 class App
 {
     function __construct()

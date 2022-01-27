@@ -5,7 +5,7 @@
            
        }
        function renderizar($nombreVista){
-           require "view/$nombreVista.php";
+           require "views/$nombreVista.php";
        }
    }
 ?>
