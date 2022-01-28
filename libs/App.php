@@ -31,8 +31,13 @@ class App
     }
     function limpiarUrl($cadena)
     {
-        $datos = rtrim($cadena);
-        $datos = explode('/', $datos);
+        $datos="";
+        if($cadena==""){
+          $datos=array(0=>"main");
+        }else{
+            $datos = rtrim($cadena);
+            $datos = explode('/', $datos);
+        }
         return $datos;
     }
 }

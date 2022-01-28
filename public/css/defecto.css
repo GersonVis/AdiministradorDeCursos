@@ -1,0 +1,8 @@
+*{
+    padding: 0;
+}
+#header{
+    background: #e8e5e5;
+    padding: 10x;
+    border-radius: 4px;
+}
