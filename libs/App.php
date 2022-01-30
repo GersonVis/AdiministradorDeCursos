@@ -1,4 +1,6 @@
 <?php
+require_once "config/configuraciones.php";
+require_once "libs/database.php";
 require_once "libs/controller.php";
 require_once "libs/view.php";
 require_once "libs/model.php";
@@ -18,12 +20,14 @@ class App
             if ($nombreMetodo = (isset($datos[1])) ? $datos[1] : false) {
                     $controlador = new $datos[0];
                     if(method_exists($controlador, $nombreMetodo)){
+                        $controlador->CargarModelo($datos[0]);
                         $controlador->{$nombreMetodo}();
                     }else{
                         $errorMetodo= new ErrorMetodo();
                     }
             } else {
                 $controlador = new $datos[0];
+                $controlador->CargarModelo($datos[0]);
             }
         } else {
             $error = new ErrorControlador();

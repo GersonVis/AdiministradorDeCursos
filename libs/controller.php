@@ -4,5 +4,13 @@
        {
            $this->view=new View();
        }
+       function CargarModelo($modelo){
+           $url = "models/$modelo"."Modelo.php";
+           if(file_exists($url)){
+               require_once $url;
+               $modelo=$modelo.'Modelo';
+               $this->model=new $modelo();
+           }
+       }
    }
 ?>
