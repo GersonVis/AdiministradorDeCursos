@@ -215,3 +215,6 @@ body {
 .listaSinEstilo{
     list-style: none;
 }
+.columna{
+    flex-direction: column;
+}
