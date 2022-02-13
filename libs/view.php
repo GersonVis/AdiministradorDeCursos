@@ -4,8 +4,8 @@
        {
            
        }
-       function renderizar($nombreVista){
-           require "views/$nombreVista.php";
+       function Renderizar($nombreVista){
+           require_once "views/$nombreVista.php";
        }
    }
 ?>

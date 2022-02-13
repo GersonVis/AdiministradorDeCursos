@@ -12,5 +12,8 @@
                $this->model=new $modelo();
            }
        }
+       function Renderizar($vista){
+           $this->view->Renderizar("$vista");
+       }
    }
 ?>
