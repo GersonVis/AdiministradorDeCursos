@@ -6,7 +6,6 @@ require_once "libs/view.php";
 require_once "libs/model.php";
 require_once "controllers/errores/errorControlador.php";
 require_once "controllers/errores/errorMetodo.php";
-
 class App
 {
     function __construct()
@@ -20,7 +19,11 @@ class App
             require_once $archivoController;
             if ($nombreMetodo = (isset($datos[1])) ? $datos[1] : false) {
                 $controlador = new $datos[0];
-                if (method_exists($controlador, $nombreMetodo)) {
+                if(intval($datos[1])){
+                   $controlador->CargarModelo($datos[0]);
+                   $controlador->informacionPorUrl($datos[1]);
+                }
+                else if (method_exists($controlador, $nombreMetodo)) {
                     $controlador->CargarModelo($datos[0]);
                     $controlador->{$nombreMetodo}();
                 } else {

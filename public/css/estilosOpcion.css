@@ -8,6 +8,10 @@
     background-color: white;
     border-radius: 2em;
 }
+.opcionSeleccionada{
+    background-color: white;
+    border-radius: 2em;
+}
 .cuadroOpcion {
     width: 110px;
     height: 110px;

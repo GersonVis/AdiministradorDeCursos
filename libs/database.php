@@ -22,7 +22,8 @@ class Database
         }
         return $conexion;
     }
-    function consulta($sqlConsulta){
-        
+    function consulta($conexion, $sqlConsulta){
+        $respuesta=$conexion->query($sqlConsulta);
+        return $respuesta;
     }
 }

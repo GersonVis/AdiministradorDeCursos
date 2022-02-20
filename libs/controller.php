@@ -9,11 +9,14 @@
            if(file_exists($url)){
                require_once $url;
                $modelo=$modelo.'Modelo';
-               $this->model=new $modelo();
+               $this->modelo=new $modelo();
            }
        }
        function Renderizar($vista){
            $this->view->Renderizar("$vista");
+       }
+       function informacionPorUrl($posicion){
+           echo "no existe la estraccion";
        }
    }
 ?>

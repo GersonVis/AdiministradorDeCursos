@@ -49,7 +49,9 @@ body {
 .redondear {
     border-radius: 2em;
 }
-
+.redondearDos {
+    border-radius: .5em;
+}
 .circulo {
     border-radius: 50% 50%;
 }
@@ -212,9 +214,30 @@ body {
 .barras {
     overflow: auto;
 }
-.listaSinEstilo{
+
+.listaSinEstilo {
     list-style: none;
 }
-.columna{
+
+.columna {
     flex-direction: column;
+}
+
+.posicionAbsoluta {
+    position: absolute;
+}
+
+.centrarAbsoluto {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+.textoSeleccionado{
+    background-color: #CDEDF4;
+}
+.gridCuatro{
+    display: grid;
+    grid-template-columns: repeat(4,auto);
 }
