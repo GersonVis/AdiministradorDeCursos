@@ -8,7 +8,8 @@ botonesEliminar.forEach(elemento=>{
         if(resultado){
            procesoDeEliminacion(this)
         }
-    })
+    }
+    )
 })
 
 async function procesoDeEliminacion(elemento){

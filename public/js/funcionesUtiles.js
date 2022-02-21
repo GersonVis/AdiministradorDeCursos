@@ -38,18 +38,14 @@ async function consulta(url, data, metodo="POST"){
     })
     return respuesta
 }
-async function enviarFormulario(idFormulario, mensajeCorrecto="", mensajeError=""){
+async function enviarFormulario(idFormulario){
     formulario=document.getElementById(idFormulario)
     data=new FormData(formulario)
     let respuesta =await fetch(formulario.action, {
         method: formulario.method,
         body:data
     })
-    if(respuesta.status==200){
-        alert(mensajeCorrecto)
-        return respuesta
-    }
-    alert(mensajeError)
+    
     return respuesta
 }
 function crearAtributo(nombre, valor){

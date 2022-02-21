@@ -8,6 +8,14 @@ botonCerrarCrear.addEventListener('click', function(){
 })
 botonCrear.addEventListener('click', function (){
     enviarFormulario("crearinstructor", "instructor creado correctamente", "no se pudo crear instructor")
+    .then(respuesta=>{
+        if(respuesta.status==200){
+            alert("Creado correctamente")
+            actualizarPanel(crearPrincipal)
+            return ""
+        }
+        alert("No se pudo crear")
+    })
 })
 
 function crearFormularioInstructor(nombresLabels) {

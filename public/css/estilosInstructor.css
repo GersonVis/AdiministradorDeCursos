@@ -1,15 +1,7 @@
 #contenedorPrincipal{
     display: flex;
 }
-#barraBusqueda{
-    height: 60px;
-    min-height: 70px;
-    border-radius: 2em 0 0 2em;
-}
-#barraBusqueda input{
-    height: 35px;
-    min-height: 35px;
-}
+
 #contenedorOpciones{
     padding: 2em 0em 0 0em;
     width: 100%;

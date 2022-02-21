@@ -39,10 +39,10 @@ $datoIndividuo = new DatoIndividuo();
             <div id="menuLateralArriba" class="expandirAmbos ">
                 <p class="indicador textoTipoA">MENÚ</p>
                 <ul id="menu" class="expandirAmbos listaSinEstilo displayFlexC">
-                    <li class="opcionMenu flexCentradoR"><a  class="textoTipoB redondear colorCuarto expandirAmbos flexCentradoR">
+                    <li class="opcionMenu flexCentradoR"><a  href="/instructor" class="textoTipoB redondear colorPrimario expandirAmbos flexCentradoR">
                             <p>Instructores</p>
                         </a></li>
-                    <li class="opcionMenu flexCentradoR"><a href="/curso" class="textoTipoB redondear colorPrimario expandirAmbos flexCentradoR">
+                    <li class="opcionMenu flexCentradoR"><a  class="textoTipoB redondear colorCuarto expandirAmbos flexCentradoR">
                             <p>Cursos</p>
                         </a></li>
                 </ul>

@@ -33,7 +33,7 @@ class InstructorModelo extends Model
   {
     $con = $this->bd->conectar();
     $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM instructor");
-    $etiquetas=array();
+    $etiquetas = array();
     while ($item = mysqli_fetch_assoc($resultado)) {
       $etiquetas[] = $item['Field'];
     }
@@ -50,24 +50,48 @@ class InstructorModelo extends Model
     }
     echo json_encode($etiquetas);
   }
-  function crear($datos){
-      $conexion=$this->bd->conectar();
-      if(!$consulta=$conexion->prepare("INSERT INTO instructor VALUES (NULL, ?,?,?,?,?,?,?,?,?);")){
-        echo "error";
-        return false;
-      }
-      $consulta->bind_param("sssssssss", $datos['rfc'], $datos['psw'], $datos['nombre'], $datos['apellidoPaterno'], $_POST['apellidoMaterno'], $_POST['telefono'], $_POST['sexo'], $_POST['correo'], $_POST['domicilio']);
-      $consulta->execute();
-      return true;
+  function crear($datos)
+  {
+    $conexion = $this->bd->conectar();
+    if (!$consulta = $conexion->prepare("INSERT INTO instructor VALUES (NULL, ?,?,?,?,?,?,?,?,?);")) {
+      echo "error";
+      return false;
     }
-    function actualizar($datos){
-      $conexion=$this->bd->conectar();
-      if(!$consulta=$conexion->prepare("update instructor set {$datos['columna']}=? where id=?")){
-        echo "error";
-        return false;
-      }
-      $consulta->bind_param("ss", $datos['nuevo'], $datos['id']);
-      $consulta->execute();
-      return true;
+    $consulta->bind_param("sssssssss", $datos['rfc'], $datos['psw'], $datos['nombre'], $datos['apellidoPaterno'], $_POST['apellidoMaterno'], $_POST['telefono'], $_POST['sexo'], $_POST['correo'], $_POST['domicilio']);
+    $consulta->execute();
+    return true;
+  }
+  function actualizar($datos)
+  {
+    $conexion = $this->bd->conectar();
+    if (!$consulta = $conexion->prepare("update instructor set {$datos['columna']}=? where id=?")) {
+      echo "error";
+      return false;
     }
+    $consulta->bind_param("ss", $datos['nuevo'], $datos['id']);
+    $consulta->execute();
+    return true;
+  }
+  function buscar($valor, $condicionales)
+  {
+    $sqlConsulta = "select * from instructor where ";
+    $sqlCondicional="";
+    foreach ($condicionales as $etiqueta => $valorArray) {
+      if ($valorArray == "1") {
+        $sqlCondicional .= "$etiqueta like '$valor%' or ";
+      }
+    }
+    $etiquetas=array();
+    if($sqlCondicional!=""){
+      $sqlCondicional = substr($sqlCondicional, 0, -4);//removemos la parte or que queda
+      $sqlConsulta=$sqlConsulta.$sqlCondicional;
+      $con = $this->bd->conectar();
+      $resultado = $this->bd->consulta($con, $sqlConsulta);
+      $etiquetas = array();
+      while ($item = mysqli_fetch_assoc($resultado)) {
+        $etiquetas[] = $item;
+      }
+    }
+    return $etiquetas;//si no se recivio ninguna condición se retorna un array vacio
+  }
 }

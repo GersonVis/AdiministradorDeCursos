@@ -1,6 +1,6 @@
 <?php
 
-class Instructor extends Controller{
+class Curso extends Controller{
     function __construct()
     {
         parent::__construct();
