@@ -12,20 +12,13 @@ class Curso extends Controller{
         $this->view->Renderizar("$vista");
     }
     function informacionPorUrl($posicion){
-        $informacion=$this->modelo->obtenerInformacion($posicion);
-        $informacionArray=array();
-        while($dato=mysqli_fetch_assoc($informacion)){
-            $informacionArray[]=$dato;
-        }
-        echo json_encode($informacionArray);
+        $datos=$this->modelo->obtenerInformacion($posicion);
+        echo json_encode($datos);
     }
     function todos(){
         $datos=$this->modelo->todos();
-        $arrayDatos=array();
-        while($dato=mysqli_fetch_assoc($datos)){
-            $arrayDatos[]=$dato;
-        }
-        echo json_encode($arrayDatos);
+        
+        echo json_encode($datos);
     }
     function eliminar(){
         $respuesta=$this->modelo->eliminar($_POST['id']);
@@ -66,7 +59,7 @@ class Curso extends Controller{
         $arrayDatos['nuevo']=$_POST['nuevo'];
         if(!$this->modelo->actualizar($arrayDatos)){
             http_response_code(404);
-            echo "no se pudo actualizar";
+            echo " no se pudo actualizar";
             exit();
         }
         echo "actualizado correctamente";
@@ -85,6 +78,12 @@ class Curso extends Controller{
             $resultadoConsulta=$this->modelo->buscar($valor, $datos);
         }
         echo json_encode($resultadoConsulta);
+    }
+    function instructoresEnlazados(){
+        $idCurso=$_POST['curso'];
+        $respuesta=array("datos"=>$idCurso);
+        $respuesta=$this->modelo->instructoresEnlazados($idCurso);
+        echo json_encode($respuesta);
     }
 }
 ?>

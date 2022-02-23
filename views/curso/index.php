@@ -28,6 +28,8 @@ $datoIndividuo = new DatoIndividuo();
     <link rel="stylesheet" href="/public/css/estilosInformacionIndividual.css">
     <link rel="stylesheet" href="/public/css/estilosCrear.css">
     <link rel="stylesheet" href="/public/css/estilosBusqueda.css">
+    <link rel="stylesheet" href="/public/css/estilosInstructoresAsociados.css">
+
 </head>
 
 <body>
@@ -61,15 +63,15 @@ $datoIndividuo = new DatoIndividuo();
             <footer id="arribaParte" class="expandirW flexCentradoR">
                
                     <div class="divBusqueda expandirAmbos flexCentradoR">
-                        <form action="/instructor/busqueda" id="formularioBusqueda"  class="expandirAmbos flexCentradoC" method="POST">
+                        <form action="/curso/busqueda" id="formularioBusqueda"  class="expandirAmbos flexCentradoC" method="POST">
                             <div class="busquedaBarra flexCentradoR">
                                 <input id="buscar" type="text" name="valor" class="colorCuarto redondear">
                                 <input id="botonEnviar" type="button" class="colorPrimario redondear" value="">
                             </div>
                             <div class="busquedaOpciones flexCentradoR">
-                                <input id="rfc" name="rfc" type="checkbox" value="1"><label for="rfc">RFC</label></input>
-                                <input id="id" name="id" type="checkbox" value="1"><label for="rfc">ID</label></input>
-                                <input id="nombre" name="nombre" type="checkbox" value="1" checked><label for="rfc">NOMBRE</label></input>
+                                <input id="rfc" name="nombreCurso" type="checkbox" value="1"><label for="rfc">nombreCurso</label></input>
+                                <input id="id" name="id" type="checkbox" value="1"><label for="id">ID</label></input>
+                                <input id="nombre" name="claveCurso" type="checkbox" value="1" checked><label for="rfc">claveCurso</label></input>
                             </div>
                         </form>
                     </div>
@@ -113,8 +115,8 @@ $datoIndividuo = new DatoIndividuo();
                     <ul id="botonMostrarDatos" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
                         <p>Datos del instructor</p>
                     </ul>
-                    <ul id="botonMostrarCursos" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Cursos impartidos</p>
+                    <ul id="botonInstructoresAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
+                        <p>Instructores asociados</p>
                     </ul>
                 </li>
             </div>
@@ -165,16 +167,18 @@ $datoIndividuo = new DatoIndividuo();
         </section>
     </div>
 
-    <script src="/public/js/funcionesUtiles.js"></script>
+    <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>
     <!--en este script se encuentran las bases para adaptar la vista sin cambiar la logica-->
-    <script src="/public/js/instructorBases.js"></script>
+    <script src="/public/js/scriptscurso/instructorBases.js"></script>
     <!--fin-->
-    <script src="/public/js/actualizarPanel.js"></script>
-    <script src="/public/js/mostrarInformacion.js"></script>
-    <script src="/public/js/eliminarIndividuo.js"></script>
-    <script src="/public/js/crearInstructor.js"></script>
-    <script src="/public/js/actualizarInstructor.js"></script>
-    <script src="/public/js/busquedaInstructor.js"></script>
+    <script src="/public/js/scriptscurso/actualizarPanel.js"></script>
+    <!--script con evento cuando se hace click en los elementos principales-->
+    <script src="/public/js/scriptscurso/mostrarInformacion.js"></script>
+    <script src="/public/js/scriptscurso/eliminarIndividuo.js"></script>
+    <script src="/public/js/scriptscurso/crearInstructor.js"></script>
+    <script src="/public/js/scriptscurso/actualizarInstructor.js"></script>
+    <script src="/public/js/scriptscurso/busquedaInstructor.js"></script>
+    <script src="/public/js/scriptscurso/mostrarInstructoresAsociados.js"></script>
 </body>
 
 </html>
