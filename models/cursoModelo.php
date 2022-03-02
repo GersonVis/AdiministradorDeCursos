@@ -94,14 +94,17 @@ class CursoModelo extends Model
   function eliminar($id)
   {
     $conexion = $this->bd->conectar();
-    $sqlConsulta = "delete from instructor where id=$id";
+
+    $sqlConsultaEliminarEnlaces = "delete from impartio where idCurso=$id;";
+    $respuesta = $this->bd->consulta($conexion, $sqlConsultaEliminarEnlaces);
+    $sqlConsulta = "delete from curso where id=$id";
     $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
     return $respuesta;
   }
-  function columnas()
+  function columnas() ///regresa los datos de las columnas que contiene la tabla
   {
     $con = $this->bd->conectar();
-    $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM instructor");
+    $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM curso");
     $etiquetas = array();
     while ($item = mysqli_fetch_assoc($resultado)) {
       $etiquetas[] = $item['Field'];
@@ -111,23 +114,33 @@ class CursoModelo extends Model
 
   function columnasJSON()
   {
-    $con = $this->modelo->bd->conectar();
-    $resultado = $this->modelo->bd->consulta($con, "SHOW COLUMNS FROM instructor");
+    $con = $this->bd->conectar();
+    $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM curso");
     $etiquetas = array();
     while ($item = mysqli_fetch_assoc($resultado)) {
       $etiquetas[] = $item['Field'];
     }
-    echo json_encode($etiquetas);
+    unset($etiquetas['id']);
+    return json_encode($etiquetas);
   }
-  function crear($datos)
+
+
+
+  function crear($datos, $idsInstructores) //se crea el curso y se enlazan los ids de instructores en la tabla de impartio
   {
     $conexion = $this->bd->conectar();
-    if (!$consulta = $conexion->prepare("INSERT INTO instructor VALUES (NULL, ?,?,?,?,?,?,?,?,?);")) {
+    if (!$consulta = $conexion->prepare("INSERT INTO curso VALUES (NULL, ?,?,?,?,?,?,?,?);")) {
       echo "error";
       return false;
     }
-    $consulta->bind_param("sssssssss", $datos['rfc'], $datos['psw'], $datos['nombre'], $datos['apellidoPaterno'], $_POST['apellidoMaterno'], $_POST['telefono'], $_POST['sexo'], $_POST['correo'], $_POST['domicilio']);
+    $consulta->bind_param("ssssssss", $datos['claveCurso'], $datos['fechaInicial'], $datos['fechaFinal'], $datos['horas'], $datos['cupo'], $datos['nombreCurso'], $datos['lugar'], $datos['horario']);
+    //$idInsertado=$this->mysqli->insert_id;
     $consulta->execute();
+    $idInsertado = $consulta->insert_id;
+    foreach ($idsInstructores as $idInstructor => $valor) {
+      $this->bd->consulta($conexion, "insert impartio valueS(NULL,  '$idInsertado', '$idInstructor')");
+    }
+    $conexion->close();
     return true;
   }
   function actualizar($datos)
@@ -156,14 +169,91 @@ class CursoModelo extends Model
       $sqlConsulta = $sqlConsulta . $sqlCondicional;
 
       $conexion = $this->bd->conectar();
-      $informacion=$this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+      $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     }
     return $informacion; //si no se recivio ninguna condición se retorna un array vacio
   }
-  function instructoresEnlazados($id){
-      $sqlConsulta="SELECT  intr.id, intr.nombre, intr.rfc FROM impartio,instructor as intr WHERE impartio.idCurso=$id and impartio.idInstructor=intr.id;";
-      $conexion = $this->bd->conectar();
-      $informacion=$this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
-      return $informacion;
+  function instructoresEnlazados($id)
+  {
+    $sqlConsulta = "SELECT  intr.id, intr.nombre, intr.rfc FROM impartio,instructor as intr WHERE impartio.idCurso=$id and impartio.idInstructor=intr.id;";
+    $conexion = $this->bd->conectar();
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return $informacion;
+  }
+  function convertirdorIipo($entrada)
+  {
+    $tipoEnBruto = substr($entrada, 0, strpos($entrada, '('));
+    $tipoEnBruto = $tipoEnBruto == "" ? $entrada : $tipoEnBruto;
+    switch ($tipoEnBruto) {
+      case "bigint":
+      case "int":
+        return "number";
+        break;
+      case "date":
+        return "date";
+        break;
+      case "varchar":
+        return "text";
+        break;
+      default:
+        return "text";
+        break;
+    }
+  }
+  function columnasTipo()
+  {
+    $con = $this->bd->conectar();
+    $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM curso");
+    $etiquetas = array();
+    while ($item = mysqli_fetch_assoc($resultado)) {
+      $etiquetas[$item['Field']] = array("valor" => "",  "tipo" => $this->convertirdorIipo($item['Type']));
+    }
+    unset($etiquetas['id']);
+    return $etiquetas;
+  }
+  function enlazar($idCurso, $idsInstructores)
+  {
+    $con = $this->bd->conectar();
+    echo var_dump($idsInstructores);
+    foreach ($idsInstructores as $idInstructor => $valor) {
+      $resultado = $this->bd->consulta($con, "insert into impartio values(null, $idCurso, $idInstructor)");
+      echo $idInstructor;
+      //printf("%s %s\n", $idInstructor, $idsInstructores);
+    }
+    return true;
+  }
+
+
+  function instructoresDisponibles($idCurso)
+  {
+    /*obtenemos los ids de los instructores que tiene el curso
+  luego solicitamos los instructores que no tengan ese id*/
+    $conexion = $this->bd->conectar();
+    $respuesta = $this->bd->consulta($conexion, "SELECT instructor.id FROM instructor INNER JOIN impartio
+    ON impartio.idInstructor=instructor.id where impartio.idCurso=$idCurso");
+    $idsRechazados = "";
+    $sqlConsulta="";
+    
+    if ($respuesta->num_rows != 0) {
+      while ($idEnlazado = mysqli_fetch_assoc($respuesta)) {
+        $idsRechazados .= $idEnlazado['id'] . ", ";
+      }
+      $idsRechazados = substr($idsRechazados, 0, -2);
+      $sqlConsulta="select * from instructor where id not in($idsRechazados);";
+    }else{
+      $sqlConsulta = "select * from instructor";
+    }
+    
+   // echo $sqlConsulta;
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+
+    return $informacion;
+  }
+  function desenlazar($idCurso, $idInstructor)
+  {
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "delete from impartio where idCurso=$idCurso and idInstructor=$idInstructor";
+    $resultado = $this->bd->consulta($conexion, $sqlConsulta);
+    return $resultado;
   }
 }

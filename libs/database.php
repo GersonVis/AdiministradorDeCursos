@@ -28,6 +28,7 @@ class Database
     }
     function tiposDeDatoConsulta($conexion, $sqlConsulta){
       $resultado = $conexion->query($sqlConsulta);
+      
       $datosColumna = $resultado->fetch_fields();
       $columnasAsociadas = array();
       foreach ($datosColumna as $valor) {
@@ -45,7 +46,7 @@ class Database
       return $informacion;
     }
 
-
+    
     function tiposDeDato($valor)
   {
     switch ($valor) {
