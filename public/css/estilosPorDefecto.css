@@ -244,3 +244,12 @@ body {
     display: grid;
     grid-template-columns: repeat(4,auto);
 }
+.gridTres{
+    display: grid;
+    grid-template-columns: repeat(3,auto);
+    grid-auto-rows: minmax(210px, auto);
+}
+.seleccionarTipoDos{
+    border-radius: 3em;
+    background-color: #fff0f0;
+}

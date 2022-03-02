@@ -42,8 +42,8 @@ class InstructorModelo extends Model
 
   function columnasJSON()
   {
-    $con = $this->modelo->bd->conectar();
-    $resultado = $this->modelo->bd->consulta($con, "SHOW COLUMNS FROM instructor");
+    $con = $this->bd->conectar();
+    $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM instructor");
     $etiquetas = array();
     while ($item = mysqli_fetch_assoc($resultado)) {
       $etiquetas[] = $item['Field'];
