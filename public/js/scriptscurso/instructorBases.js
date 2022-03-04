@@ -9,6 +9,13 @@ var idOpcionSeleccionada = ""
 var opcionSubMenu=""
 var instructoresSeleccionados={}
 //fin variables globales
+function metodoActualizarPanel(){
+    contenedorOpcionesDirecto.innerHTML=""
+    solicitarDatosJSON(urlBase + "/todos")
+        .then(datos => {
+            actualizarPanel(datos, crearPrincipal)
+        })
+}
 
 function crearPrincipal(informacion){
    

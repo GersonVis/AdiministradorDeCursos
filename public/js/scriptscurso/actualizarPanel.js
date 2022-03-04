@@ -1,10 +1,7 @@
 instructoresEnlace={}
 
-document.addEventListener("DOMContentLoaded", function () {
-    solicitarDatosJSON(urlBase + "/todos")
-        .then(datos => {
-            actualizarPanel(datos, crearPrincipal)
-        })
+document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz para poder crear un curso o instructor
+    metodoActualizarPanel()
     individuoCrear.innerHTML = ""
     /*interfaz del formulario*/
   //  parteFormularioTexto = parteFormulario()
@@ -41,11 +38,16 @@ document.addEventListener("DOMContentLoaded", function () {
             Object.entries(datosJSON).forEach(([etiqueta, valor]) => {
                 formulario.appendChild(inputFormulario(etiqueta, valor.tipo))
             })
-            solicitarDatosJSON('/instructor/' + "todos", "")
+            
+           
+           
+        }
+    )
+    solicitarDatosJSON('/instructor/' + "todos", "")
                 .then(datosJSON => {
+                   
                     datosJSON.forEach(datos=>{
-                        ({interfaz, botonEliminar}=interfazInstructorEnlace({id:{valor:datos.id}, 
-                            nombre:{valor:datos.nombre}, rfc:{valor:datos.rfc}}))
+                        ({interfaz, botonEliminar}=interfazInstructorEnlace(datos, ['id', 'nombre', 'rfc']))
                             interfaz.addEventListener('click', function(){
                                 clickOpcionEnlace(this)
                             })
@@ -53,10 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     })
                   //  parteFormularioInstructores.appendChild(interfazInstructor())
                 })
-           
-           
-        }
-    )
 })
 async function crearCurso(idFormulario){
     let formulario=document.getElementById(idFormulario)
@@ -66,8 +64,8 @@ async function crearCurso(idFormulario){
         method: formulario.method,
         body:data
     })
-    console.log(respuesta)
-    console.log(respuesta.text())
+ 
+    metodoActualizarPanel()
     alert("creado")
     return respuesta
 }

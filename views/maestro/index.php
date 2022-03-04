@@ -4,12 +4,10 @@ include "views/compartido/menuLateral.php";
 include "views/compartido/opcion.php";
 include "views/compartido/herramienta.php";
 include "views/compartido/datoIndividuo.php";
-include "views/compartido/botonSalir.php";
 $menuLateral = new MenuLateral();
 $opcion = new Opcion();
 $herramienta = new Herramienta();
 $datoIndividuo = new DatoIndividuo();
-$botonSalir = new BotonSalir();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +22,6 @@ $botonSalir = new BotonSalir();
     echo $opcion->estiloCSS();
     echo $herramienta->estiloCSS();
     echo $datoIndividuo->estiloCSS();
-    echo $botonSalir->estiloCSS();
     ?>
     <link rel="stylesheet" href="/public/css/estilosPorDefecto.css">
     <link rel="stylesheet" href="/public/css/estilosInstructor.css">
@@ -100,10 +97,10 @@ $botonSalir = new BotonSalir();
                         <p>Datos del curso</p>
                     </ul>
                     <ul id="botonInstructoresAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Instructores asociados</p>
+                        <p>Cursos tomados</p>
                     </ul>
                     <ul id="botonAsociarInstructores" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Asociar instructores</p>
+                        <p>Tomar curso</p>
                     </ul>
                 </li>
             </div>
@@ -133,9 +130,6 @@ $botonSalir = new BotonSalir();
                 <button type="button" value="cerrar" id="botonCerrarCrear" class="botonCerrar redondearDos colorPrimario posicionAbsoluta">Cerrar</button>
             </section>
         </section>
-        <?php
-        echo $botonSalir->codigoHTML();
-        ?>
     </div>
 
     <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>

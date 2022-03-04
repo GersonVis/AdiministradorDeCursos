@@ -253,3 +253,7 @@ body {
     border-radius: 3em;
     background-color: #fff0f0;
 }
+.ezquinaSuperiorDerecha{
+    top: 0;
+    right: 0;
+}

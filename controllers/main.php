@@ -5,10 +5,9 @@ class Main extends Controller
     {
         parent::__construct();
     }
-    public function Saludo()
-    {
-        echo "hola estamos saludando";
+    function Renderizar($nombreVista){
+       
+        require_once "views/$nombreVista.php";
     }
-
 }
 ?>

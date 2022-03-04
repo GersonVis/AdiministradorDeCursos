@@ -1,8 +1,16 @@
 <?php
    class Controller{
-       function __construct()
+       function __construct($check=true)
        {
+           
            $this->view=new View();
+           session_start();
+        //   echo var_dump($_SESSION);
+           if($check){
+            if(!isset($_SESSION['nombre']) || !isset($_SESSION['clave']) || !isset($_SESSION['grado'])){
+               header('location: /session');
+            } 
+           }
        }
        function CargarModelo($modelo){
            $url = "models/$modelo"."Modelo.php";

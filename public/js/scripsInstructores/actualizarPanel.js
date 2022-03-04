@@ -1,21 +1,18 @@
 instructoresEnlace={}
 
 document.addEventListener("DOMContentLoaded", function () {
-    solicitarDatosJSON(urlBase + "/todos")
-        .then(datos => {
-            actualizarPanel(datos, crearPrincipal)
-        })
+    metodoActualizarPanel()
     individuoCrear.innerHTML = ""
     /*interfaz del formulario*/
   //  parteFormularioTexto = parteFormulario()
     var parteFormularioInstructores, dentroInstructores
     var botonFormulario
-    [parteFormularioInstructores, dentroInstructores] = contenedorConTitulo("Enlazar instructores")
+    [parteFormularioInstructores, dentroInstructores] = contenedorConTitulo("Enlazar cursos")
 
 
     var idFormulario="formularioCrear"
     var textoFormulario, textoDentro
-    [textoFormulario, textoDentro] = contenedorConTitulo("Datos curso")
+    [textoFormulario, textoDentro] = contenedorConTitulo("Datos insctructor")
    
   
     textoDentro.style.display="flex"
@@ -41,11 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
             Object.entries(datosJSON).forEach(([etiqueta, valor]) => {
                 formulario.appendChild(inputFormulario(etiqueta, valor.tipo))
             })
-            solicitarDatosJSON('/instructor/' + "todos", "")
+            solicitarDatosJSON(urlEnlazada + "/todos", "")
                 .then(datosJSON => {
+                    console.log(datosJSON)
                     datosJSON.forEach(datos=>{
-                        ({interfaz, botonEliminar}=interfazInstructorEnlace({id:{valor:datos.id}, 
-                            nombre:{valor:datos.nombre}, rfc:{valor:datos.rfc}}))
+                        ({interfaz, botonEliminar}=interfazInstructorEnlace(datos, ['id', 'nombreCurso', 'claveCurso'])
+                            )
                             interfaz.addEventListener('click', function(){
                                 clickOpcionEnlace(this)
                             })
@@ -61,13 +59,13 @@ document.addEventListener("DOMContentLoaded", function () {
 async function crearCurso(idFormulario){
     let formulario=document.getElementById(idFormulario)
     let data=new FormData(formulario)
-    data.append('instructores',JSON.stringify(instructoresEnlace))
+    data.append('cursos', JSON.stringify(instructoresEnlace))
     let respuesta =await fetch(formulario.action, {
         method: formulario.method,
         body:data
     })
     console.log(respuesta)
-    console.log(respuesta.text())
+    metodoActualizarPanel()
     alert("creado")
     return respuesta
 }

@@ -1,10 +1,10 @@
 <?php
 
-class Instructor extends Controller{
+class Maestro extends Controller{
     function __construct()
     {
         parent::__construct();
-        $this->view->nombre="instructor";
+        $this->view->nombre="maestro";
     }
     function Renderizar($vista){
         $this->view->instructores=$this->modelo->todos();
@@ -111,4 +111,5 @@ class Instructor extends Controller{
         
     }
 }
+
 ?>

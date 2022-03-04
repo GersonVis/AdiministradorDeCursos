@@ -10,7 +10,10 @@ class CursoModelo extends Model
   {
     $conexion = $this->bd->conectar();
     $sqlConsulta = "select * from curso where id='$posicion'";
-    $resultado = $conexion->query($sqlConsulta);
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    unset($informacion[0]['id']);
+    return $informacion;
+   /* $resultado = $conexion->query($sqlConsulta);
     $datosColumna = $resultado->fetch_fields();
     $columnasAsociadas = array();
     foreach ($datosColumna as $valor) {
@@ -24,8 +27,8 @@ class CursoModelo extends Model
         $itemFabricado[$etiqueta] = array("valor" => $valor, "tipo" => $columnasAsociadas[$etiqueta]);
       }
       $informacion[] = $itemFabricado;
-    }
-    return $informacion;
+    }*/
+    //return $informacion;
   }
   function tiposDeDato($valor)
   {
@@ -72,21 +75,7 @@ class CursoModelo extends Model
   {
     $conexion = $this->bd->conectar();
     $sqlConsulta = "select * from curso";
-    $resultado = $conexion->query($sqlConsulta);
-
-    $datosColumna = $resultado->fetch_fields();
-    $columnasAsociadas = array();
-    foreach ($datosColumna as $valor) {
-      $columnasAsociadas[$valor->name] = $this->tiposDeDato($valor->type);
-    }
-    $informacion = array();
-    while ($item = mysqli_fetch_assoc($resultado)) {
-      $itemFabricado = array();
-      foreach ($item as $etiqueta => $valor) {
-        $itemFabricado[$etiqueta] = array("valor" => $valor, "tipo" => $columnasAsociadas[$etiqueta]);
-      }
-      $informacion[] = $itemFabricado;
-    }
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return $informacion;
   }
 

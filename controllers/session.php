@@ -3,26 +3,41 @@ include_once 'controllers/main.php';
  class Session extends Controller{
      function __construct()
      {
-         parent::__construct();
+         parent::__construct(false);
          $this->view->estilo="colorSecundario";
+        
      }
-     function Registrar(){
-        session_start();
-        if(!isset($_SESSION['usuario'])){
-            header('location: /main');
-        }
-        if(!isset($_POST['usuario']) && !isset($_POST['clave'])){
-            $this->Error();
-        }else{
-            $_SESSION['usuario']=$_POST['usuario'];
-            $_SESSION['clave']=$_POST['clave'];
-            header('location: /main');
-        }
+     function registrar(){
+            $usuario=isset($_POST['usuario'])?$_POST['usuario']:"";
+            $clave=isset($_POST['clave'])?$_POST['clave']:"";
+            if($usuario!="" && $clave!=""){
+                $respuesta=$this->modelo->usuario($usuario, $clave);
+                $registro=$respuesta->fetch_assoc();
+                if($respuesta){
+                     $_SESSION['nombre']=$registro['nombre'];
+                     $_SESSION['clave']=$registro['clave'];
+                     $_SESSION['grado']=$registro['grado'];
+                    // $grado=$_SESSION['grado'];
+                     header('location: /main'); 
+                }
+            } 
+            $this->view->estilo="colorError";
+            $this->Renderizar("<session/index");
+        
+       
+        
+       // header('location: /main');
      }
-     function Error(){
+     function error(){
          $this->view->estilo="colorError";
          $this->Renderizar('session/index');
      }
-     
+     function salir(){
+         if(isset($_SESSION)){
+             unset($_SESSION['nombre']);
+             unset($_SESSION['clave']);
+             unset($_SESSION['grado']);
+         }
+         header('location: /session');
+     }
  }
-?>

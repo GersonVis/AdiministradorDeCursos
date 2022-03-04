@@ -3,8 +3,8 @@ botonAsociarInstructores.addEventListener('click', function () {
 })
 clickBotonAsociarInstructores=()=>{
     informacion = new FormData();
-    informacion.append('idCurso', opcionSeleccionada.attributes.idsql.value)
-    solicitarDatosJSON(urlBase + "/instructoresDisponibles", informacion)
+    informacion.append('idInstructor', opcionSeleccionada.attributes.idsql.value)
+    solicitarDatosJSON(urlBase + "/cursosDisponibles", informacion)
         .then(datosJSON => {
             opcionSubMenu = seleccionarOpcion(botonAsociarInstructores, opcionSubMenu, "textoSeleccionado")
             verInstructoresDisponibles(datosJSON, listaDatosIndividuo, interfazInstructorSinBoton)
@@ -91,8 +91,8 @@ function enlazarInstructoresDisponibles() {
              alert("No hay instructores seleccionados")
         }else if(confirm("Se enlazaran estos instructores al curso") && puerta){
             let data=new FormData()
-            data.append('idsInstructores', JSON.stringify(instructoresSeleccionados))
-            data.append('idCurso', opcionSeleccionada.attributes.idsql.value)
+            data.append('idsCursos', JSON.stringify(instructoresSeleccionados))
+            data.append('idInstructor', opcionSeleccionada.attributes.idsql.value)
             puerta=false
             consulta(urlBase+"/enlazar", data)
             .then(respuesta=>{
@@ -116,8 +116,8 @@ function seleccionMultiple(guardados, identificador, guardar=""){
 }
 function interfazInstructorSinBoton(informacion){
     id=informacion.id.valor
-    nombre=informacion.nombre.valor
-    rfc=informacion.rfc.valor
+    nombre=informacion.nombreCurso.valor
+    rfc=informacion.claveCurso.valor
     let elemento = document.createElement("li")
     let botonEliminar
     elemento.id="opcion"+id

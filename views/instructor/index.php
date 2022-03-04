@@ -47,15 +47,15 @@ $botonSalir = new BotonSalir();
             <footer id="arribaParte" class="expandirW flexCentradoR">
 
                 <div class="divBusqueda expandirAmbos flexCentradoR">
-                    <form action="/curso/busqueda" id="formularioBusqueda" class="expandirAmbos flexCentradoC" method="POST">
+                    <form action="/instructor/busqueda" id="formularioBusqueda" class="expandirAmbos flexCentradoC" method="POST">
                         <div class="busquedaBarra flexCentradoR">
                             <input id="buscar" type="text" name="valor" class="colorCuarto redondear">
                             <input id="botonEnviar" type="button" class="colorPrimario redondear" value="">
                         </div>
                         <div class="busquedaOpciones flexCentradoR">
-                            <input id="rfc" name="nombreCurso" type="checkbox" value="1"><label for="rfc">nombreCurso</label></input>
-                            <input id="id" name="id" type="checkbox" value="1"><label for="id">ID</label></input>
-                            <input id="nombre" name="claveCurso" type="checkbox" value="1" checked><label for="rfc">claveCurso</label></input>
+                            <input id="rfc" name="rfc" type="checkbox" value="1"><label for="rfc">RFC</label></input>
+                            <input id="id" name="id" type="checkbox" value="1"><label for="rfc">ID</label></input>
+                            <input id="nombre" name="nombre" type="checkbox" value="1" checked><label for="rfc">NOMBRE</label></input>
                         </div>
                     </form>
                 </div>
@@ -97,13 +97,13 @@ $botonSalir = new BotonSalir();
                 <p id="" class="subMenu">Información del curso</p>
                 <li id="contenedorSubMenu" class="ocuparDisponible listaSinEstilo flexCentradoC">
                     <ul id="botonMostrarDatos" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Datos del curso</p>
+                        <p>Datos del instructor</p>
                     </ul>
                     <ul id="botonInstructoresAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Instructores asociados</p>
+                        <p>Cursos asociados</p>
                     </ul>
                     <ul id="botonAsociarInstructores" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Asociar instructores</p>
+                        <p>Asociar cursos</p>
                     </ul>
                 </li>
             </div>
@@ -138,22 +138,22 @@ $botonSalir = new BotonSalir();
         ?>
     </div>
 
-    <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>
+    <script src="/public/js/scripsInstructores/funcionesUtiles.js"></script>
 
 
     <!--en este script se encuentran las bases para adaptar la vista sin cambiar la logica-->
-    <script src="/public/js/scriptscurso/instructorBases.js"></script>
+    <script src="/public/js/scripsInstructores/instructorBases.js"></script>
     <!--fin-->
     <script src="/public/js/interfaces/menuDeAsociados.js"></script>
-    <script src="/public/js/scriptscurso/actualizarPanel.js"></script>
+    <script src="/public/js/scripsInstructores/actualizarPanel.js"></script>
     <!--script con evento cuando se hace click en los elementos principales-->
-    <script src="/public/js/scriptscurso/mostrarInformacion.js"></script>
-    <script src="/public/js/scriptscurso/eliminarIndividuo.js"></script>
-    <script src="/public/js/scriptscurso/crearInstructor.js"></script>
-    <script src="/public/js/scriptscurso/actualizarInstructor.js"></script>
-    <script src="/public/js/scriptscurso/busquedaInstructor.js"></script>
-    <script src="/public/js/scriptscurso/mostrarInstructoresAsociados.js"></script>
-    <script src="/public/js/scriptscurso/asociarInstructores.js"></script>
+    <script src="/public/js/scripsInstructores/mostrarInformacion.js"></script>
+    <script src="/public/js/scripsInstructores/eliminarIndividuo.js"></script>
+    <script src="/public/js/scripsInstructores/crearInstructor.js"></script>
+    <script src="/public/js/scripsInstructores/actualizarInstructor.js"></script>
+    <script src="/public/js/scripsInstructores/busquedaInstructor.js"></script>
+    <script src="/public/js/scripsInstructores/mostrarInstructoresAsociados.js"></script>
+    <script src="/public/js/scripsInstructores/asociarInstructores.js"></script>
 </body>
 
 </html>

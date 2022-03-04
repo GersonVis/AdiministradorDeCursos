@@ -15,9 +15,9 @@
     <div class="centrar flexCentrado contenedorRegistro redondear <?php  echo $this->estilo;?>">
         <img class="imagen" src="/public/imagenes/persona sentada.png" alt="">
         <div class="formularioInicio centrar expandir">
-            <form action="/session/Registrar" id="formRegistro"class="expandirAmbos centrar formInicio">
-                <input type="text" class="capturarTexto expandir seleccionado" placeholder="Usuario">
-                <input type="password" class="capturarTexto expandir noSeleccionado" placeholder="Contraseña">
+            <form action="/session/registrar" id="formRegistro" method="POST" class="expandirAmbos centrar formInicio">
+                <input name="usuario" type="text" class="capturarTexto expandir seleccionado" placeholder="Usuario">
+                <input name="clave" type="password" class="capturarTexto expandir noSeleccionado" placeholder="Contraseña">
             </form>
         </div>
         <div class="centrar expandir contenedorEnviar colorPrimario hacerCirculo">

@@ -37,10 +37,10 @@ function inputFormulario(etiqueta, tipo) {
   function opcionAsociada(informacion){
         return interfazInstructor(informacion)
   }
-  function interfazInstructorEnlace(informacion){
-      id=informacion.id.valor
-      nombre=informacion.nombre.valor
-      rfc=informacion.rfc.valor
+  function interfazInstructorEnlace(informacion, etiquetas=['id', 'nombre', 'rfc']){
+      id=informacion[etiquetas[0]].valor
+      nombre=informacion[etiquetas[1]].valor
+      rfc=informacion[etiquetas[2]].valor
       let elemento = document.createElement("li")
       let botonEliminar
       elemento.id="opcion"+id
@@ -53,9 +53,7 @@ function inputFormulario(etiqueta, tipo) {
           <div class="cuadroOpcion sombra colorPrimario redondear flexCentradoR" style="position: relative">
          
               <img src="public/iconos/perfil-del-usuario.png" class="mitad" alt="">
-              <div idSql="${id}" class="opcionesDentro sombra opcionAsociadaEliminar posicionAbsoluta circulo colorQuinto flexCentradoR">
-                  <img src="public/iconos/basura.png" class="expandirSetenta" alt="">
-              </div>
+              
               <div idSql="${id}" class="asociado asociadoID posicionAbsoluta redondear sombra colorCuarto flexCentradoR">
                  <p>${id}</p>
               </div>

@@ -1,4 +1,6 @@
 escribiendoarray (
-  'valor' => '',
+  'valor' => '2022',
+  'nombreCurso' => '1',
+  'id' => '1',
   'claveCurso' => '1',
 )

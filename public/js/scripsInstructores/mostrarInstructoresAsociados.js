@@ -1,7 +1,7 @@
 botonInstructoresAsociados.addEventListener("click", function () {
     informacion = new FormData();
-    informacion.append('curso', opcionSeleccionada.attributes.idsql.value)
-    solicitarDatosJSON(urlBase + "/instructoresEnlazados", informacion)
+    informacion.append('idInstructor', opcionSeleccionada.attributes.idsql.value)
+    solicitarDatosJSON(urlBase + "/cursosEnlazados", informacion)
         .then(datosJSON => {
             opcionSubMenu=seleccionarOpcion(botonInstructoresAsociados, opcionSubMenu, "textoSeleccionado")
             
@@ -25,10 +25,11 @@ actualizarInformacionIndividual = (datosJSON, contenedorPadre, crearInterfaz) =>
 }
 eventoBotonEliminarInstructor=(elemento, padre)=>{
     let data=new FormData();
-    data.append('idInstructor', elemento.attributes.idsql.value)
-    data.append('idCurso', opcionSeleccionada.attributes.idsql.value)
+    data.append('idCurso', elemento.attributes.idsql.value)
+    data.append('idInstructor', opcionSeleccionada.attributes.idsql.value)
     consulta(urlBase+"/desenlazar", data)
     .then(respuesta=>{
+        console.log(respuesta.text())
         if(respuesta.status=="200"){
             alert("Se ha quitado el instructor correctamente")
             
