@@ -72,6 +72,7 @@ class Instructor extends Controller{
         echo "actualizado correctamente";
     }
     function busqueda(){
+       
         $valor=$_POST['valor'];
         $datos=$_POST;
         unset($datos['valor']);

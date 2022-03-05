@@ -4,11 +4,14 @@ class maestroModelo extends Model{
     function __construct()
     {
       parent::__construct();
+      $this->tablaPrincipal="maestro";
+      $this->identificador="idMaestro";
+      $this->tablaEnlazada="tomocurso";
     }
     function obtenerInformacion($posicion)
     {
       $conexion = $this->bd->conectar();
-      $sqlConsulta = "select * from instructor where id='$posicion'";
+      $sqlConsulta = "select * from $this->tablaPrincipal where id='$posicion'";
       $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
       unset($informacion[0]['id']);
       return $informacion;
@@ -17,7 +20,7 @@ class maestroModelo extends Model{
     function todos()
     {
       $conexion = $this->bd->conectar();
-      $sqlConsulta = "select * from instructor";
+      $sqlConsulta = "select * from $this->tablaPrincipal";
       $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
       return $informacion;
     }
@@ -28,16 +31,16 @@ class maestroModelo extends Model{
     {
       $conexion = $this->bd->conectar();
   
-      $sqlConsultaEliminarEnlaces = "delete from impartio where idInstructor=$id;";
+      $sqlConsultaEliminarEnlaces = "delete from $this->tablaEnlazada where $this->identificador=$id;";
       $respuesta = $this->bd->consulta($conexion, $sqlConsultaEliminarEnlaces);
-      $sqlConsulta = "delete from instructor where id=$id";
+      $sqlConsulta = "delete from  $this->tablaPrincipal where id=$id";
       $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
       return $respuesta;
     }
     function columnas()
     {
       $con = $this->bd->conectar();
-      $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM instructor");
+      $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM $this->tablaPrincipal");
       $etiquetas = array();
       while ($item = mysqli_fetch_assoc($resultado)) {
         $etiquetas[] = $item['Field'];
@@ -67,7 +70,7 @@ class maestroModelo extends Model{
     function columnasTipo()
     {
       $con = $this->bd->conectar();
-      $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM instructor");
+      $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM $this->tablaPrincipal");
       $etiquetas = array();
       while ($item = mysqli_fetch_assoc($resultado)) {
         $etiquetas[$item['Field']] = array("valor" => "",  "tipo" => $this->convertirdorIipo($item['Type']));
@@ -78,7 +81,7 @@ class maestroModelo extends Model{
     function columnasJSON()
     {
       $con = $this->bd->conectar();
-      $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM instructor");
+      $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM $this->tablaPrincipal");
       $etiquetas = array();
       while ($item = mysqli_fetch_assoc($resultado)) {
         $etiquetas[] = $item['Field'];
@@ -88,7 +91,7 @@ class maestroModelo extends Model{
     function crear($datos, $cusosAEnlazar)
     {
       $conexion = $this->bd->conectar();
-      if (!$consulta = $conexion->prepare("INSERT INTO instructor VALUES (NULL, ?,?,?,?,?,?,?,?,?);")) {
+      if (!$consulta = $conexion->prepare("INSERT INTO $this->tablaPrincipal VALUES (NULL, ?,?,?,?,?,?,?,?,?);")) {
         echo "error";
         return false;
       }
@@ -96,7 +99,7 @@ class maestroModelo extends Model{
       $consulta->execute();
       $idInsertado = $consulta->insert_id;
       foreach ($cusosAEnlazar as $idCurso => $valor) {
-        $this->bd->consulta($conexion, "insert impartio valueS(NULL,  '$idCurso', '$idInsertado')");
+        $this->bd->consulta($conexion, "insert  $this->tablaEnlazada valueS(NULL,  '$idCurso', '$idInsertado')");
       }
       $conexion->close();
       return true;
@@ -104,7 +107,7 @@ class maestroModelo extends Model{
     function actualizar($datos)
     {
       $conexion = $this->bd->conectar();
-      if (!$consulta = $conexion->prepare("update instructor set {$datos['columna']}=? where id=?")) {
+      if (!$consulta = $conexion->prepare("update $this->tablaPrincipal set {$datos['columna']}=? where id=?")) {
         echo "error";
         return false;
       }
@@ -114,7 +117,7 @@ class maestroModelo extends Model{
     }
     function buscar($valor, $condicionales)
     {//buscara las partes que inicien con las coincidencias
-      $sqlConsulta = "select * from instructor where ";
+      $sqlConsulta = "select * from $this->tablaPrincipal where ";
       $sqlCondicional = "";
       foreach ($condicionales as $etiqueta => $valorArray) {//se crea la consulta sql en base a la informacion mandada por $_POST
         if ($valorArray == "1") {
@@ -134,7 +137,7 @@ class maestroModelo extends Model{
   
     function cursosEnlazados($id)
     {
-      $sqlConsulta = "SELECT curso.id, curso.claveCurso, curso.nombreCurso from curso join impartio on impartio.idCurso=curso.id where impartio.idInstructor=$id;";
+      $sqlConsulta = "SELECT curso.id, curso.claveCurso, curso.nombreCurso from curso join $this->tablaEnlazada on $this->tablaEnlazada.idCurso=curso.id where $this->tablaEnlazada.$this->identificador=$id;";
       $conexion = $this->bd->conectar();
       $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
       return $informacion;
@@ -143,7 +146,7 @@ class maestroModelo extends Model{
     function desenlazar($idCurso, $idInstructor)
     {
       $conexion = $this->bd->conectar();
-      $sqlConsulta = "delete from impartio where idCurso=$idCurso and idInstructor=$idInstructor";
+      $sqlConsulta = "delete from $this->tablaEnlazada where idCurso=$idCurso and $this->identificador=$idInstructor";
       $resultado = $this->bd->consulta($conexion, $sqlConsulta);
       return $resultado;
     }
@@ -152,8 +155,9 @@ class maestroModelo extends Model{
       /*obtenemos los ids de los instructores que tiene el curso
     luego solicitamos los instructores que no tengan ese id*/
       $conexion = $this->bd->conectar();
-      $respuesta = $this->bd->consulta($conexion, $sql = "SELECT curso.id FROM curso INNER JOIN impartio
-       ON impartio.idCurso=curso.id where impartio.idInstructor=$idInstructor");
+      $sqlConsulta = "SELECT curso.id FROM curso INNER JOIN $this->tablaEnlazada ON $this->tablaEnlazada.idCurso=curso.id where $this->tablaEnlazada.$this->identificador=$idInstructor";
+      $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
+     // echo $sqlConsulta;
       $idsRechazados = "";
       $sqlConsulta="";
       if ($respuesta->num_rows != 0) {
@@ -176,7 +180,7 @@ class maestroModelo extends Model{
       $con = $this->bd->conectar();
       echo var_dump($idsCursos);
       foreach ($idsCursos as $idCurso => $valor) {
-        $resultado = $this->bd->consulta($con, "insert into impartio values(null, $idCurso, $idInstructor)");
+        $resultado = $this->bd->consulta($con, "insert into $this->tablaEnlazada values(null, $idCurso, $idInstructor)");
         echo $idInstructor;
         //printf("%s %s\n", $idInstructor, $idsInstructores);
       }

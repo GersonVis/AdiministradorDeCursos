@@ -5,7 +5,7 @@ botonInstructoresAsociados.addEventListener("click", function () {
         .then(datosJSON => {
             opcionSubMenu=seleccionarOpcion(botonInstructoresAsociados, opcionSubMenu, "textoSeleccionado")
             
-            actualizarInformacionIndividual(datosJSON, listaDatosIndividuo, interfazInstructor)
+            actualizarInformacionIndividual(datosJSON, listaDatosIndividuo, interfazInstructorAsociado)
         })
 })
 var contenedorInstructoresEnlazados=contenedorIntructoresAsociados()
@@ -17,7 +17,7 @@ actualizarInformacionIndividual = (datosJSON, contenedorPadre, crearInterfaz) =>
         ({interfaz, botonEliminar } = crearInterfaz(elemento))
         contenedorInstructoresEnlazados.appendChild(interfaz)
         botonEliminar.addEventListener('click', function (){
-            eventoBotonEliminarInstructor(this, document.getElementById('opcion'+this.attributes.idsql.value))
+            eventoBotonEliminarInstructor(this, document.getElementById('opcionAsociada'+this.attributes.idsql.value))
         })
        
     });

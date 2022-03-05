@@ -4,10 +4,12 @@ include "views/compartido/menuLateral.php";
 include "views/compartido/opcion.php";
 include "views/compartido/herramienta.php";
 include "views/compartido/datoIndividuo.php";
+include "views/compartido/botonSalir.php";
 $menuLateral = new MenuLateral();
 $opcion = new Opcion();
 $herramienta = new Herramienta();
 $datoIndividuo = new DatoIndividuo();
+$botonSalir = new BotonSalir();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +24,7 @@ $datoIndividuo = new DatoIndividuo();
     echo $opcion->estiloCSS();
     echo $herramienta->estiloCSS();
     echo $datoIndividuo->estiloCSS();
+    echo $botonSalir->estiloCSS();
     ?>
     <link rel="stylesheet" href="/public/css/estilosPorDefecto.css">
     <link rel="stylesheet" href="/public/css/estilosInstructor.css">
@@ -42,17 +45,17 @@ $datoIndividuo = new DatoIndividuo();
 
         <div class="ocuparDisponible displayFlexC cuartoColor">
             <footer id="arribaParte" class="expandirW flexCentradoR">
-
+                <!--tener en cuenta que cada "name" debe ser una propiedad de la tabla consultada-->
                 <div class="divBusqueda expandirAmbos flexCentradoR">
-                    <form action="/curso/busqueda" id="formularioBusqueda" class="expandirAmbos flexCentradoC" method="POST">
+                    <form action="<?php echo $this->nombre; ?>/busqueda" id="formularioBusqueda" class="expandirAmbos flexCentradoC" method="POST">
                         <div class="busquedaBarra flexCentradoR">
                             <input id="buscar" type="text" name="valor" class="colorCuarto redondear">
                             <input id="botonEnviar" type="button" class="colorPrimario redondear" value="">
                         </div>
                         <div class="busquedaOpciones flexCentradoR">
-                            <input id="rfc" name="nombreCurso" type="checkbox" value="1"><label for="rfc">nombreCurso</label></input>
+                            <input id="rfc" name="nombre" type="checkbox" value="1"><label for="rfc">nombre</label></input>
                             <input id="id" name="id" type="checkbox" value="1"><label for="id">ID</label></input>
-                            <input id="nombre" name="claveCurso" type="checkbox" value="1" checked><label for="rfc">claveCurso</label></input>
+                            <input id="nombre" name="rfc" type="checkbox" value="1" checked><label for="rfc">rfc</label></input>
                         </div>
                     </form>
                 </div>
@@ -91,16 +94,16 @@ $datoIndividuo = new DatoIndividuo();
         </div>
         <section id="informacionIndividual" class="centrarAbsoluto posicionAbsoluta flexCentradoR colorSecundario redondearDos posicionRelativa">
             <div id="menuIndividuo" class="individuoDivision colorCuarto redondearDos flexCentradoC">
-                <p id="" class="subMenu">Información del curso</p>
+                <p id="" class="subMenu">Información del <?php echo $this->nombre; ?></p>
                 <li id="contenedorSubMenu" class="ocuparDisponible listaSinEstilo flexCentradoC">
                     <ul id="botonMostrarDatos" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Datos del curso</p>
+                        <p>Datos del <?php echo $this->nombre; ?> </p>
                     </ul>
                     <ul id="botonInstructoresAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Cursos tomados</p>
+                        <p>Cursos asociados</p>
                     </ul>
                     <ul id="botonAsociarInstructores" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Tomar curso</p>
+                        <p>Asociar cursos</p>
                     </ul>
                 </li>
             </div>
@@ -130,24 +133,27 @@ $datoIndividuo = new DatoIndividuo();
                 <button type="button" value="cerrar" id="botonCerrarCrear" class="botonCerrar redondearDos colorPrimario posicionAbsoluta">Cerrar</button>
             </section>
         </section>
+        <?php
+        echo $botonSalir->codigoHTML();
+        ?>
     </div>
 
-    <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>
+    <script src="/public/js/scriptsMaestro/funcionesUtiles.js"></script>
 
 
     <!--en este script se encuentran las bases para adaptar la vista sin cambiar la logica-->
-    <script src="/public/js/scriptscurso/instructorBases.js"></script>
+    <script src="/public/js/scriptsMaestro/instructorBases.js"></script>
     <!--fin-->
     <script src="/public/js/interfaces/menuDeAsociados.js"></script>
-    <script src="/public/js/scriptscurso/actualizarPanel.js"></script>
+    <script src="/public/js/scriptsMaestro/actualizarPanel.js"></script>
     <!--script con evento cuando se hace click en los elementos principales-->
-    <script src="/public/js/scriptscurso/mostrarInformacion.js"></script>
-    <script src="/public/js/scriptscurso/eliminarIndividuo.js"></script>
-    <script src="/public/js/scriptscurso/crearInstructor.js"></script>
-    <script src="/public/js/scriptscurso/actualizarInstructor.js"></script>
-    <script src="/public/js/scriptscurso/busquedaInstructor.js"></script>
-    <script src="/public/js/scriptscurso/mostrarInstructoresAsociados.js"></script>
-    <script src="/public/js/scriptscurso/asociarInstructores.js"></script>
+    <script src="/public/js/scriptsMaestro/mostrarInformacion.js"></script>
+    <script src="/public/js/scriptsMaestro/eliminarIndividuo.js"></script>
+    <script src="/public/js/scriptsMaestro/crearInstructor.js"></script>
+    <script src="/public/js/scriptsMaestro/actualizarInstructor.js"></script>
+    <script src="/public/js/scriptsMaestro/busquedaInstructor.js"></script>
+    <script src="/public/js/scriptsMaestro/mostrarInstructoresAsociados.js"></script>
+    <script src="/public/js/scriptsMaestro/asociarInstructores.js"></script>
 </body>
 
 </html>

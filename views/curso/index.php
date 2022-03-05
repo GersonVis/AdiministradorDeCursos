@@ -94,10 +94,10 @@ $botonSalir = new BotonSalir();
         </div>
         <section id="informacionIndividual" class="centrarAbsoluto posicionAbsoluta flexCentradoR colorSecundario redondearDos posicionRelativa">
             <div id="menuIndividuo" class="individuoDivision colorCuarto redondearDos flexCentradoC">
-                <p id="" class="subMenu">Información del curso</p>
+                <p id="" class="subMenu">Información del <?php echo $this->nombre;?></p>
                 <li id="contenedorSubMenu" class="ocuparDisponible listaSinEstilo flexCentradoC">
                     <ul id="botonMostrarDatos" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
-                        <p>Datos del curso</p>
+                        <p>Datos del <?php echo $this->nombre;?> </p>
                     </ul>
                     <ul id="botonInstructoresAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
                         <p>Instructores asociados</p>

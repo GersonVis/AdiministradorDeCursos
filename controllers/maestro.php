@@ -5,6 +5,7 @@ class Maestro extends Controller{
     {
         parent::__construct();
         $this->view->nombre="maestro";
+       
     }
     function Renderizar($vista){
         $this->view->instructores=$this->modelo->todos();

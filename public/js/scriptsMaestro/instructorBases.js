@@ -1,5 +1,9 @@
-const urlBase="/curso"//url a donde se harán todas las peticiones
-const urlEnlazar="/instructor"
+const urlBase="/maestro"//url a donde se harán todas las peticiones
+const urlEnlace="/curso"
+const etiquetasRequeridas=['id', 'nombreCurso', 'claveCurso']
+const identificardorEnlace="idsCursos"
+const identificadorPrincipal='idInstructor'
+const idEnlace="idCurso"
 //variables globales
 var opcionSeleccionada = ""
 var textoEditarAnterior = ""
@@ -8,6 +12,7 @@ var prueba = ""
 var idOpcionSeleccionada = ""
 var opcionSubMenu=""
 var instructoresSeleccionados={}
+var urlEnlazada="/curso"
 //fin variables globales
 function metodoActualizarPanel(){
     contenedorOpcionesDirecto.innerHTML=""
@@ -20,8 +25,8 @@ function metodoActualizarPanel(){
 function crearPrincipal(informacion){
    
       id=informacion.id.valor
-      nombre=informacion.nombreCurso.valor
-      rfc=informacion.claveCurso.valor
+      nombre=informacion.nombre.valor
+      rfc=informacion.rfc.valor
       let elemento = document.createElement("li")
       let botonEliminar
       elemento.id="opcion"+id
@@ -32,7 +37,7 @@ function crearPrincipal(informacion){
       agregarAtributo(elemento, atributo)
       elemento.innerHTML = `<div idSql="${id}" class="conArribaOpcion FlexCentradoR posicionRelativa expandirW flexCentradoR">
           <div class="cuadroOpcion sombra colorPrimario redondear flexCentradoR" style="position: relative">
-              <img src="public/imagenes/libros.png" style="background: #fff0f0;border-radius: 50% 50%;" class="mitad" alt="">
+              <img src="public/iconos/perfil-del-usuario.png" style="background: #fff0f0;border-radius: 50% 50%;" class="mitad" alt="">
               <div idSql="${id}" class="opcionesDentro sombra opcionAsociadaEliminar posicionAbsoluta circulo colorQuinto flexCentradoR">
                   <img src="public/iconos/basura.png" class="expandirSetenta" alt="">
               </div>
@@ -54,8 +59,8 @@ function crearPrincipal(informacion){
 }
 function interfazInstructor(informacion){
     id=informacion.id.valor
-    nombre=informacion.nombre.valor
-    rfc=informacion.rfc.valor
+    nombre=informacion.nombreCurso.valor
+    rfc=informacion.claveCurso.valor
     let elemento = document.createElement("li")
     let botonEliminar
     elemento.id="opcion"+id
@@ -87,6 +92,7 @@ function interfazInstructor(informacion){
     "elemento.childNodes[0].childNodes[1].childNodes[3]"
     return {interfaz: elemento, botonEliminar: botonEliminar}
 }
+
 function interfazInstructorAsociado(informacion){
     id=informacion.id.valor
     nombre=informacion.nombreCurso.valor

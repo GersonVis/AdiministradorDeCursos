@@ -1,5 +1,5 @@
 escribiendoarray (
-  'valor' => '2022',
+  'valor' => '2',
   'nombreCurso' => '1',
   'id' => '1',
   'claveCurso' => '1',

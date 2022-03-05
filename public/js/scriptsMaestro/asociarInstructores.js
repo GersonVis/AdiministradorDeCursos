@@ -96,7 +96,7 @@ function enlazarInstructoresDisponibles() {
             puerta=false
             consulta(urlBase+"/enlazar", data)
             .then(respuesta=>{
-                    console.log("actualizando")
+                    
                     clickBotonAsociarInstructores()
                     instructoresSeleccionados={}
                     puerta=true
