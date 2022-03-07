@@ -33,6 +33,7 @@ $botonSalir = new BotonSalir();
     <link rel="stylesheet" href="/public/css/estilosBusqueda.css">
     <link rel="stylesheet" href="/public/css/estilosInstructoresAsociados.css">
     <link rel="stylesheet" href="/public/css/estilosenlazarInstructoresDisponibles.css">
+    <link rel="stylesheet" href="/public/css/estilosEnlazadoPrincipal.css">
 
 </head>
 
@@ -53,9 +54,9 @@ $botonSalir = new BotonSalir();
                             <input id="botonEnviar" type="button" class="colorPrimario redondear" value="">
                         </div>
                         <div class="busquedaOpciones flexCentradoR">
-                            <input id="rfc" name="nombreCurso" type="checkbox" value="1"><label for="rfc">nombreCurso</label></input>
+                            <input id="rfc" name="nombreCurso" type="checkbox" value="1"><label for="rfc">Nombre</label></input>
                             <input id="id" name="id" type="checkbox" value="1"><label for="id">ID</label></input>
-                            <input id="nombre" name="claveCurso" type="checkbox" value="1" checked><label for="rfc">claveCurso</label></input>
+                            <input id="nombre" name="claveCurso" type="checkbox" value="1" checked><label for="rfc">Clave</label></input>
                         </div>
                     </form>
                 </div>
@@ -105,6 +106,9 @@ $botonSalir = new BotonSalir();
                     <ul id="botonAsociarInstructores" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
                         <p>Asociar instructores</p>
                     </ul>
+                    <ul id="botonMaestrosAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
+                        <p>Maestros registrados en curso</p>
+                    </ul>
                 </li>
             </div>
             <div id="informacionIndividuo" class="individuoDivision ocuparDisponible colorSecundario redondearDos">
@@ -123,14 +127,16 @@ $botonSalir = new BotonSalir();
         </section>
         <section id="sectionCrearInstructor" class="expandirAmbos posicionAbsoluta flexCentradoR colorCuarto">
             <section id="sectionCrear" class=" flexCentradoR colorSecundario redondearDos posicionRelativa">
-
                 <div id="individuoCrear" class="individuoDivision ocuparDisponible colorSecundario redondearDos barraDeDesplazamiento">
-
-
-
-
                 </div>
                 <button type="button" value="cerrar" id="botonCerrarCrear" class="botonCerrar redondearDos colorPrimario posicionAbsoluta">Cerrar</button>
+            </section>
+        </section>
+        <section id="sectionEnlazadoPrincipal" style="visibility: hidden;" class="expandirAmbos posicionAbsoluta flexCentradoR colorCuarto">
+            <section id="sectionCrear" class=" flexCentradoR colorSecundario redondearDos posicionRelativa">
+                <div id="divInformacionPrincipalEnlazado" class="individuoDivision ocuparDisponible colorSecundario redondearDos barraDeDesplazamiento">
+                </div>
+                <button type="button" value="cerrar" id="botonCerrarEnlazadoPrincipal" class="botonCerrar redondearDos colorPrimario posicionAbsoluta">Cerrar</button>
             </section>
         </section>
         <?php
@@ -139,7 +145,7 @@ $botonSalir = new BotonSalir();
     </div>
 
     <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>
-
+    <script src="/public/js/interfaces/elementos.js"></script>
 
     <!--en este script se encuentran las bases para adaptar la vista sin cambiar la logica-->
     <script src="/public/js/scriptscurso/instructorBases.js"></script>
@@ -154,6 +160,13 @@ $botonSalir = new BotonSalir();
     <script src="/public/js/scriptscurso/busquedaInstructor.js"></script>
     <script src="/public/js/scriptscurso/mostrarInstructoresAsociados.js"></script>
     <script src="/public/js/scriptscurso/asociarInstructores.js"></script>
+  <!--  <script src="/public/js/scriptscurso/panelDeElementos.js"></script>-->
+    <script src="/public/js/scriptscurso/maestrosAsociados.js"></script>
+    <script src="/public/js/scriptscurso/enlazadoPrincipal.js"></script>
+    <script>
+      
+    </script>
+    
 </body>
 
 </html>

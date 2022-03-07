@@ -1,4 +1,9 @@
 <?php
+$opcionSeleccionada = "";
+if (isset($_COOKIE['opcionSeleccionada'])) {
+    $opcionSeleccionada = $_COOKIE['opcionSeleccionada'];
+    setcookie("opcionSeleccionada", "", time() - 60);
+}
 include "libs/elemento.php";
 include "views/compartido/menuLateral.php";
 include "views/compartido/opcion.php";
@@ -154,6 +159,20 @@ $botonSalir = new BotonSalir();
     <script src="/public/js/scriptsMaestro/busquedaInstructor.js"></script>
     <script src="/public/js/scriptsMaestro/mostrarInstructoresAsociados.js"></script>
     <script src="/public/js/scriptsMaestro/asociarInstructores.js"></script>
+    <script>
+        function hacerPorCookie(){
+            <?php
+            if ($opcionSeleccionada != "") {
+                echo "opcionSeleccionada = $opcionSeleccionada
+                opcionSeleccionada.click()
+             ";
+            }
+            ?>
+        }
+    </script>
+
+
+
 </body>
 
 </html>

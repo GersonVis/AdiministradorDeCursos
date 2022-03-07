@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
             Object.entries(datosJSON).forEach(([etiqueta, valor]) => {
                 formulario.appendChild(inputFormulario(etiqueta, valor.tipo))
             })
-            
+           
            
            
         }
@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
                             })
                             dentroInstructores.appendChild(interfaz)
                     })
+                    hacerPorCookie();
                   //  parteFormularioInstructores.appendChild(interfazInstructor())
                 })
 })

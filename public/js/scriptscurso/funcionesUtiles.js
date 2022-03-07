@@ -96,3 +96,9 @@ function agregarClases(elemento, clases=[]){
         elemento.classList.add(clase)
     })
 }
+function crearEstilo(estilos){
+    let css=document.createElement("style")
+    css.type="text/css"
+    css.appendChild(document.createTextNode(estilos))
+    document.getElementsByTagName("head")[0].appendChild(css)
+}

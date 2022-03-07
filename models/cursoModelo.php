@@ -162,6 +162,9 @@ class CursoModelo extends Model
     }
     return $informacion; //si no se recivio ninguna condición se retorna un array vacio
   }
+
+
+  //metodos para tablas enlazadas
   function instructoresEnlazados($id)
   {
     $sqlConsulta = "SELECT  intr.id, intr.nombre, intr.rfc FROM impartio,instructor as intr WHERE impartio.idCurso=$id and impartio.idInstructor=intr.id;";
@@ -169,6 +172,16 @@ class CursoModelo extends Model
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return $informacion;
   }
+  function maestrosEnlazados($id)
+  {
+    $sqlConsulta = "SELECT mae.id, mae.nombre, mae.rfc FROM tomocurso, maestro as mae WHERE tomocurso.idCurso=$id and tomocurso.idMaestro=mae.id;";
+    $conexion = $this->bd->conectar();
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return $informacion;
+  }
+//fin metodos tablas enlazadas
+
+
   function convertirdorIipo($entrada)
   {
     $tipoEnBruto = substr($entrada, 0, strpos($entrada, '('));
@@ -244,5 +257,44 @@ class CursoModelo extends Model
     $sqlConsulta = "delete from impartio where idCurso=$idCurso and idInstructor=$idInstructor";
     $resultado = $this->bd->consulta($conexion, $sqlConsulta);
     return $resultado;
+  }
+  function constanciaLiberada($idCurso, $idMaestro){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "select * from tomocurso where idCurso=$idCurso and idMaestro=$idMaestro";
+ 
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    $informacion=$informacion[0];
+    return $informacion;
+  }
+  function liberar($idCurso, $idMaestro){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "UPDATE tomocurso set liberado='liberado' where idCurso=$idCurso and idMaestro=$idMaestro;";
+    $informacion = $this->bd->consulta($conexion, $sqlConsulta);
+    if($informacion){
+      $array=array("liberado"=>array("valor"=>"liberado"));
+      return $array;
+    }
+    return $informacion;
+  }
+  function noLiberar($idCurso, $idMaestro){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "UPDATE tomocurso set liberado='noliberado' where idCurso=$idCurso and idMaestro=$idMaestro;";
+    $informacion = $this->bd->consulta($conexion, $sqlConsulta);
+
+    if($informacion){
+      $array=array("liberado"=>array("valor"=>"noliberado"));
+      return $array;
+    }
+    return $informacion;
+  }
+  function invertirLiberacion($idCurso, $idMaestro){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "select * from tomocurso where idCurso=$idCurso and idMaestro=$idMaestro";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    $informacion=$informacion[0];
+   // echo var_dump($informacion);
+    $valorLiberada=$informacion['liberado']['valor'];
+ 
+    return $valorLiberada=="liberado"?$this->noLiberar($idCurso, $idMaestro):$this->liberar($idCurso, $idMaestro);
   }
 }

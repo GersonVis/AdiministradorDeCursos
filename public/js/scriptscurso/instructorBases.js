@@ -1,5 +1,6 @@
 const urlBase="/curso"//url a donde se harán todas las peticiones
 const urlEnlazar="/instructor"
+const identificadorEnBase="idCurso"
 //variables globales
 var opcionSeleccionada = ""
 var textoEditarAnterior = ""
@@ -8,6 +9,9 @@ var prueba = ""
 var idOpcionSeleccionada = ""
 var opcionSubMenu=""
 var instructoresSeleccionados={}
+var maestroSeleccionado=""
+var liberado=""
+var dataCursoMaestro=""
 //fin variables globales
 function metodoActualizarPanel(){
     contenedorOpcionesDirecto.innerHTML=""
@@ -89,8 +93,8 @@ function interfazInstructor(informacion){
 }
 function interfazInstructorAsociado(informacion){
     id=informacion.id.valor
-    nombre=informacion.nombreCurso.valor
-    rfc=informacion.claveCurso.valor
+    nombre=informacion.nombre.valor
+    rfc=informacion.rfc.valor
     let elemento = document.createElement("li")
     let botonEliminar
     elemento.id="opcionAsociada"+id
@@ -122,4 +126,73 @@ function interfazInstructorAsociado(informacion){
     "elemento.childNodes[0].childNodes[1].childNodes[3]"
     return {interfaz: elemento, botonEliminar: botonEliminar}
 }
+function interfazMaestroAsociado(informacion){
+    let id=informacion.id.valor
+    let nombre=informacion.nombre.valor
+    let rfc=informacion.rfc.valor
+    let elemento = document.createElement("li")
+    let botonEliminar
+    elemento.id="opcionAsociada"+id
+    elemento.classList.add("opcion")
+    elemento.classList.add("displayFlexC")
+    atributo=crearAtributo("idsql", id)
+    agregarAtributo(elemento, atributo)
+    elemento.innerHTML = `<div idSql="${id}" class="conArribaOpcion FlexCentradoR posicionRelativa expandirW flexCentradoR">
+    <div class="cuadroOpcion sombra colorPrimario redondear flexCentradoR" style="position: relative">
+        <img src="public/iconos/instructor.png" class="mitad" alt="">
+        <div idSql="${id}" class="opcionesDentro sombra opcionAsociadaEliminar posicionAbsoluta circulo colorQuinto flexCentradoR">
+            <img src="public/iconos/basura.png" class="expandirSetenta" alt="">
+        </div>
+        <div idSql="${id}" class="asociado asociadoID posicionAbsoluta redondear sombra colorCuarto flexCentradoR">
+           <p>${id}</p>
+        </div>
+        <div idSql="${id}" class="asociado asociadoRFC posicionAbsoluta sombra colorCuarto textoSeleccionado">
+        <p>${rfc}</p>
+        
+       </div>
+       <div id="irAMaestroAsociado${id}" idSql="${id}" class="irAMaestroAsociado opcionesDentro sombra posicionAbsoluta circulo colorQuinto flexCentradoR">
+            <img src="public/iconos/ver.png" class="expandirSetenta" alt="">
+        </div>
+    </div>
+</div>
+<div class="conAbajoOpcion displayFlexR ocuparDisponible">
+    <p>${nombre}</p>
+</div>`
+    //modificacion de botoneliminar
+    botonEliminar=elemento.getElementsByClassName('opcionesDentro')[0]
+    botonIrAMaestroAsociado=elemento.querySelector("#irAMaestroAsociado"+id)
+    botonIrAMaestroAsociado.addEventListener("click", function(){
+        document.cookie="opcionSeleccionada=opcion"+id
+        window.location.href="/maestro"
+    })
+    
+    estilo=".irAMaestroAsociado{left: -5px; bottom: 6px; background-color: white}"
+    
+    crearEstilo(estilo)
 
+    "elemento.childNodes[0].childNodes[1].childNodes[3]"
+    elemento.addEventListener('click', function(){
+        sectionEnlazadoPrincipal.style.visibility="visible"
+        divInformacionPrincipalEnlazado.innerHTML=""
+        divInformacionPrincipalEnlazado.appendChild(divEnlazadoPrincipal)
+        maestroSeleccionado=id
+        divInformacionPrincipalEnlazado.innerHTML=""
+        divInformacionPrincipalEnlazado.appendChild(divEnlazadoPrincipal)
+      
+        actualizarMaestroCurso()
+    })
+    return {interfaz: elemento, botonEliminar: botonEliminar, botonIr: botonIrAMaestroAsociado}
+}
+
+function actualizarMaestroCurso(){
+    dataCursoMaestro=new FormData()
+    dataCursoMaestro.append("idCurso", opcionSeleccionada.attributes.idsql.value)
+    dataCursoMaestro.append("idMaestro", maestroSeleccionado)
+    liberado=""
+    solicitarDatosJSON(urlBase+"/constanciaLiberada", dataCursoMaestro)
+    .then(datosJSON=>{
+        liberado=datosJSON.liberado
+        botonLiberar.childNodes[0].src=(datosJSON.liberado.valor=="liberado")?"/public/iconos/candado-abierto.png":"/public/iconos/cerrado.png"
+    })
+    
+}

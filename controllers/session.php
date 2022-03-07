@@ -18,7 +18,7 @@ include_once 'controllers/main.php';
                      $_SESSION['clave']=$registro['clave'];
                      $_SESSION['grado']=$registro['grado'];
                     // $grado=$_SESSION['grado'];
-                     header('location: /main'); 
+                     header('Location: /main'); 
                 }
             } 
             $this->view->estilo="colorError";
@@ -38,6 +38,6 @@ include_once 'controllers/main.php';
              unset($_SESSION['clave']);
              unset($_SESSION['grado']);
          }
-         header('location: /session');
+         header('Location: /session');
      }
  }

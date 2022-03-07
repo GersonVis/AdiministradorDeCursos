@@ -14,11 +14,13 @@ actualizarInformacionIndividual = (datosJSON, contenedorPadre, crearInterfaz) =>
     contenedorPadre.innerHTML = ""
     contenedorInstructoresEnlazados.innerHTML=""
     datosJSON.forEach(elemento => {
-        ({interfaz, botonEliminar } = crearInterfaz(elemento))
+        let interfaz, botonEliminar, botonIr
+        ({interfaz, botonEliminar, botonIr} = crearInterfaz(elemento))
         contenedorInstructoresEnlazados.appendChild(interfaz)
         botonEliminar.addEventListener('click', function (){
-            eventoBotonEliminarInstructor(this, document.getElementById('opcionAsociada'+this.attributes.idsql.value))
+            eventoBotonEliminarInstructor(this, interfaz)
         })
+        
        
     });
     contenedorPadre.appendChild(contenedorInstructoresEnlazados)

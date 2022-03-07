@@ -90,6 +90,9 @@ class Curso extends Controller
         }
         echo json_encode($resultadoConsulta);
     }
+
+
+    //solicitar tablas realcionadas
     function instructoresEnlazados()
     {
         $idCurso = $_POST['curso'];
@@ -97,6 +100,16 @@ class Curso extends Controller
         $respuesta = $this->modelo->instructoresEnlazados($idCurso);
         echo json_encode($respuesta);
     }
+
+
+    function maestrosEnlazados()
+    {
+        $idCurso = $_POST['curso'];
+        $respuesta = array("datos" => $idCurso);
+        $respuesta = $this->modelo->maestrosEnlazados($idCurso);
+        echo json_encode($respuesta);
+    }
+    //retorna cada columna con el tipo de dato que es creando un json {nombreColumna:{tipo: "int", valor: 3}}
     function columnasTipo()
     {
         $respuesta = $this->modelo->columnasTipo();
@@ -124,5 +137,29 @@ class Curso extends Controller
             http_response_code(404);
             exit();
         }
+    }
+    function constanciaLiberada(){
+        $idCurso=$_POST['idCurso'];
+        $idMaestro=$_POST['idMaestro'];
+        $informacion=$this->modelo->constanciaLiberada($idCurso, $idMaestro);
+        echo json_encode($informacion);
+    }
+    function liberar(){
+        $idCurso=$_POST['idCurso'];
+        $idMaestro=$_POST['idMaestro'];
+        $informacion=$this->modelo->liberar($idCurso, $idMaestro);
+        echo json_encode($informacion);
+    }
+    function noLiberar(){
+        $idCurso=$_POST['idCurso'];
+        $idMaestro=$_POST['idMaestro'];
+        $informacion=$this->modelo->noLiberar($idCurso, $idMaestro);
+        echo json_encode($informacion);
+    }
+    function invertirLiberacion(){
+        $idCurso=$_POST['idCurso'];
+        $idMaestro=$_POST['idMaestro'];
+        $informacion=$this->modelo->invertirLiberacion($idCurso, $idMaestro);
+        echo json_encode($informacion);
     }
 }

@@ -180,7 +180,7 @@ class maestroModelo extends Model{
       $con = $this->bd->conectar();
       echo var_dump($idsCursos);
       foreach ($idsCursos as $idCurso => $valor) {
-        $resultado = $this->bd->consulta($con, "insert into $this->tablaEnlazada values(null, $idCurso, $idInstructor)");
+        $resultado = $this->bd->consulta($con, "insert into $this->tablaEnlazada values(null, $idCurso, $idInstructor, \"noliberado\")");
         echo $idInstructor;
         //printf("%s %s\n", $idInstructor, $idsInstructores);
       }
