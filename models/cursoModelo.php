@@ -297,4 +297,23 @@ class CursoModelo extends Model
  
     return $valorLiberada=="liberado"?$this->noLiberar($idCurso, $idMaestro):$this->liberar($idCurso, $idMaestro);
   }
+  function datosConstancia($idMaestro, $idCurso){
+    $conexion = $this->bd->conectar();
+    $informacionNecesaria=array();
+    $sqlConsulta = "select * from maestro where id=$idMaestro";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    $informacionNecesaria["nombre"]=$informacion[0]["nombre"];
+    $sqlConsulta = "select * from curso where id=$idCurso";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    $informacionNecesaria["curso"]=$informacion[0]["nombreCurso"];
+    return $informacionNecesaria;
+    //echo var_dump($informacionNecesaria);
+   // $informacion=$informacion[0];
+  }
+  function asistencia($idMaestro, $idCurso){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta="SELECT * from asistencia INNER JOIN tomocurso on asistencia.idTomoCurso=tomocurso.id WHERE tomocurso.idCurso=$idCurso and tomocurso.idMaestro=$idMaestro;";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return $informacion;
+  }
 }

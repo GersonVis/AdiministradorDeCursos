@@ -34,7 +34,7 @@ $botonSalir = new BotonSalir();
     <link rel="stylesheet" href="/public/css/estilosInstructoresAsociados.css">
     <link rel="stylesheet" href="/public/css/estilosenlazarInstructoresDisponibles.css">
     <link rel="stylesheet" href="/public/css/estilosEnlazadoPrincipal.css">
-
+    <link rel="stylesheet" href="/public/css/estilosAsistencia.css">
 </head>
 
 <body>

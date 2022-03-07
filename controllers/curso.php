@@ -1,11 +1,12 @@
 <?php
-
+require_once "vendor/autoload.php";
+require_once "Documento.php";
 class Curso extends Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->view->nombre="curso";//declarar el nombre del controlador en el que estamos, se usa en las vistas
+        $this->view->nombre = "curso"; //declarar el nombre del controlador en el que estamos, se usa en las vistas
     }
     function Renderizar($vista)
     {
@@ -117,49 +118,76 @@ class Curso extends Controller
     }
     function enlazar()
     {
-        
+
         $idInstructores = json_decode($_POST['idsInstructores']);
         $idCurso = $_POST['idCurso'];
-        $respuesta=$this->modelo->enlazar($idCurso, $idInstructores);
-        
+        $respuesta = $this->modelo->enlazar($idCurso, $idInstructores);
     }
     function instructoresDisponibles()
     {
         $idCurso = $_POST['idCurso'];
-        $respuesta=$this->modelo->instructoresDisponibles($idCurso);
+        $respuesta = $this->modelo->instructoresDisponibles($idCurso);
         echo json_encode($respuesta);
     }
-    function desenlazar(){
-        $idCurso=$_POST['idCurso'];
-        $idInstructor=$_POST['idInstructor'];
-        $respuesta=$this->modelo->desenlazar($idCurso, $idInstructor);
-        if(!$respuesta){
+    function desenlazar()
+    {
+        $idCurso = $_POST['idCurso'];
+        $idInstructor = $_POST['idInstructor'];
+        $respuesta = $this->modelo->desenlazar($idCurso, $idInstructor);
+        if (!$respuesta) {
             http_response_code(404);
             exit();
         }
     }
-    function constanciaLiberada(){
-        $idCurso=$_POST['idCurso'];
-        $idMaestro=$_POST['idMaestro'];
-        $informacion=$this->modelo->constanciaLiberada($idCurso, $idMaestro);
+    function constanciaLiberada()
+    {
+        $idCurso = $_POST['idCurso'];
+        $idMaestro = $_POST['idMaestro'];
+        $informacion = $this->modelo->constanciaLiberada($idCurso, $idMaestro);
         echo json_encode($informacion);
     }
-    function liberar(){
-        $idCurso=$_POST['idCurso'];
-        $idMaestro=$_POST['idMaestro'];
-        $informacion=$this->modelo->liberar($idCurso, $idMaestro);
+    function liberar()
+    {
+        $idCurso = $_POST['idCurso'];
+        $idMaestro = $_POST['idMaestro'];
+        $informacion = $this->modelo->liberar($idCurso, $idMaestro);
         echo json_encode($informacion);
     }
-    function noLiberar(){
-        $idCurso=$_POST['idCurso'];
-        $idMaestro=$_POST['idMaestro'];
-        $informacion=$this->modelo->noLiberar($idCurso, $idMaestro);
+    function noLiberar()
+    {
+        $idCurso = $_POST['idCurso'];
+        $idMaestro = $_POST['idMaestro'];
+        $informacion = $this->modelo->noLiberar($idCurso, $idMaestro);
         echo json_encode($informacion);
     }
-    function invertirLiberacion(){
-        $idCurso=$_POST['idCurso'];
+    function invertirLiberacion()
+    {
+        $idCurso = $_POST['idCurso'];
+        $idMaestro = $_POST['idMaestro'];
+        $informacion = $this->modelo->invertirLiberacion($idCurso, $idMaestro);
+        echo json_encode($informacion);
+    }
+    function solicitarConstancia()
+    {
         $idMaestro=$_POST['idMaestro'];
-        $informacion=$this->modelo->invertirLiberacion($idCurso, $idMaestro);
+        $idCurso=$_POST['idCurso'];
+        $informacion=$this->modelo->datosConstancia($idMaestro, $idCurso);
+      //  echo var_dump($informacion);
+
+        define('nombrePlantilla', 'base.docx');
+        $nombreArchivo = "nuevoDoc.docx";
+
+        $datos = array("nombre" => $informacion['nombre']['valor'], "accion" => "Asistir al curso", "curso"=>$informacion['curso']['valor']);
+       $nuevoDocumento = new Documento(nombrePlantilla, $nombreArchivo, $datos);
+        $nuevoDocumento->cargarPlantilla();
+        $nuevoDocumento->actualizarDatos();
+        $nuevoDocumento->GuardarDocumento();
+       $nuevoDocumento->descargarArchivo();
+    }
+    function asistencia(){
+        $idMaestro=$_POST['idMaestro'];
+        $idCurso=$_POST['idCurso'];
+        $informacion=$this->modelo->asistencia($idMaestro, $idCurso);
         echo json_encode($informacion);
     }
 }

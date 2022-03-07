@@ -12,6 +12,8 @@ var instructoresSeleccionados={}
 var maestroSeleccionado=""
 var liberado=""
 var dataCursoMaestro=""
+var cursoSeleccionado=""
+
 //fin variables globales
 function metodoActualizarPanel(){
     contenedorOpcionesDirecto.innerHTML=""
@@ -188,11 +190,37 @@ function actualizarMaestroCurso(){
     dataCursoMaestro=new FormData()
     dataCursoMaestro.append("idCurso", opcionSeleccionada.attributes.idsql.value)
     dataCursoMaestro.append("idMaestro", maestroSeleccionado)
+    cursoSeleccionado=opcionSeleccionada.attributes.idsql.value
     liberado=""
     solicitarDatosJSON(urlBase+"/constanciaLiberada", dataCursoMaestro)
     .then(datosJSON=>{
         liberado=datosJSON.liberado
         botonLiberar.childNodes[0].src=(datosJSON.liberado.valor=="liberado")?"/public/iconos/candado-abierto.png":"/public/iconos/cerrado.png"
+        secundario.innerHTML=""//limpieamos contenedor
+        solicitarDatosJSON(urlBase+"/asistencia", dataCursoMaestro)
+        .then(
+           respuestaJSON=>{
+            actualizarAsistencia(respuestaJSON, secundario)
+           }   
+        )
     })
-    
+} 
+actualizarAsistencia=(datosJSON, elementoContenedor)=>{
+    datosJSON.forEach(dataIndividual=>{
+        interfaz=interfazAsistencia(dataIndividual)
+        elementoContenedor.appendChild(interfaz)
+    })
+}
+interfazAsistencia=(dataIndividual)=>{
+     let fecha=dataIndividual.fecha.valor
+     let bitacora=dataIndividual.bitacora.valor
+     divAsistencia=document.createElement("div")
+     divAsistenciaClases=["divAsistencia", "flexCentradoC", "redondear" ]
+     agregarClases(divAsistencia, divAsistenciaClases)
+     divAsistencia.innerHTML=`
+      <div class="asitenciaFecha expandirAmbos colorPrimario redondear colorTercero">${fecha}</div>
+      <div class="asistenciaBitacora expandirAmbos colorCuarto">${bitacora}</div> 
+     `
+     return divAsistencia
+     
 }

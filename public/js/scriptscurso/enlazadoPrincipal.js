@@ -4,7 +4,9 @@ botonCerrarEnlazadoPrincipal.addEventListener("click", function () {
 })
 var divEnlazadoPrincipal, secundario
 [divEnlazadoPrincipal, secundario] = crearInterfazEnlazadoPrincipal()
-console.log(divEnlazadoPrincipal)
+console.log(secundario)
+
+
 divInformacionPrincipalEnlazado.appendChild(divEnlazadoPrincipal)
 
 
@@ -13,9 +15,9 @@ function crearInterfazEnlazadoPrincipal() {
     let elementoPadre = document.createElement('div')
     let parteBotones = document.createElement('div')
 
-    elementoPadreClases = ['barras']
-    parteBotonesClases = ['flexCentradoR']
-
+    let elementoPadreClases = ['barras']
+    let parteBotonesClases = ['flexCentradoR']
+    let elementoClases=["flexCentradoC"]
     agregarClases(elemento, elementoClases)
     agregarClases(elementoPadre, elementoPadreClases)
     agregarClases(parteBotones, parteBotonesClases)
@@ -42,7 +44,10 @@ function crearInterfazEnlazadoPrincipal() {
         bottom: "24px",
         right: "23px"
     }
-
+    estilosElemento = {
+        "padding-top": "40px"
+    }
+    agregarEstilos(elemento, estilosElemento)
     agregarEstilos(elementoPadre, estilosPadre)
     agregarEstilos(parteBotones, estilosParteBotones)
 
@@ -67,10 +72,20 @@ function crearInterfazEnlazadoPrincipal() {
 
     botonLiberar.addEventListener("click", checarLiberar)
     botonConstancia.addEventListener("click", function(){
-        alert("constancia")
+        formulario=document.createElement("form")
+        formulario.method="POST"
+        formulario.action=urlBase+"/solicitarConstancia"
+        formulario.id="formularioMaestroCurso"
+        valores='<input type="hidden" name="idMaestro" value="'+maestroSeleccionado+'">'
+        valores+='<input type="hidden" name="idCurso" value="'+cursoSeleccionado+'">'
+        formulario.innerHTML=valores
+        formulario.target="_blank"
+        document.getElementsByTagName("body")[0].appendChild(formulario)
+        formulario.submit()
+    
     })
 
-
+    console.log(elemento)
     return [elementoPadre, elemento]
 
 }
