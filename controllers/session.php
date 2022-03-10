@@ -12,18 +12,21 @@ include_once 'controllers/main.php';
             $clave=isset($_POST['clave'])?$_POST['clave']:"";
             if($usuario!="" && $clave!=""){
                 $respuesta=$this->modelo->usuario($usuario, $clave);
-                $registro=$respuesta->fetch_assoc();
+                echo var_dump($respuesta);
+              /*  $registro=$respuesta->fetch_assoc();*/
                 if($respuesta){
-                     $_SESSION['nombre']=$registro['nombre'];
-                     $_SESSION['clave']=$registro['clave'];
-                     $_SESSION['grado']=$registro['grado'];
+                     $_SESSION['nombre']=$respuesta['nombre'];
+                     $_SESSION['clave']=$respuesta['clave'];
+                     $_SESSION['grado']=$respuesta['grado'];
+                     $_SESSION['idEnlazado']=$respuesta['idEnlazado'];
                     // $grado=$_SESSION['grado'];
                      header('Location: /main'); 
+                     exit();
                 }
             } 
             $this->view->estilo="colorError";
-            $this->Renderizar("<session/index");
-        
+            $this->Renderizar("session/index");
+            exit();
        
         
        // header('location: /main');

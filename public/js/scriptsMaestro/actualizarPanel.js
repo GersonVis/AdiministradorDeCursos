@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
 
     var idFormulario="formularioCrear"
     var textoFormulario, textoDentro
-    [textoFormulario, textoDentro] = contenedorConTitulo("Datos curso")
+    [textoFormulario, textoDentro] = contenedorConTitulo("Datos Maestro")
    
   
     textoDentro.style.display="flex"

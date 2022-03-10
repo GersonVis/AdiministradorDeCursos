@@ -6,8 +6,11 @@ class Main extends Controller
         parent::__construct();
     }
     function Renderizar($nombreVista){
-       
-        require_once "views/$nombreVista.php";
+       if($_SESSION['grado']=="1"){
+          require_once "views/$nombreVista.php";
+          exit();
+       }
+       header('Location: /curso'); 
     }
 }
 ?>

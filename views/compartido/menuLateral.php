@@ -1,5 +1,5 @@
 <?php
-class MenuLateral extends Elemento
+class MenuLateral 
 {
     function __construct()
     {
@@ -9,6 +9,7 @@ class MenuLateral extends Elemento
             "instructor" => array("etiqueta"=>"Instructores","href" => "href=\"/instructor\"", "clase" =>$claseNoSeleccion),
             "curso" => array("etiqueta"=>"Cursos","href" => "href=\"/curso\"", "clase" => $claseNoSeleccion),
             "maestro" => array("etiqueta"=>"Maestro","href" => "href=\"/maestro\"", "clase" => $claseNoSeleccion),
+            "archivo" => array("etiqueta"=>"Archivos","href" => "href=\"/archivo\"", "clase" => $claseNoSeleccion),
         );
     }
     function estiloCSS()

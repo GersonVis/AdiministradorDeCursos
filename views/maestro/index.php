@@ -142,7 +142,7 @@ $botonSalir = new BotonSalir();
         echo $botonSalir->codigoHTML();
         ?>
     </div>
-
+    <script src="/public/js/ComponentWeb/CambiosInput.js"></script>
     <script src="/public/js/scriptsMaestro/funcionesUtiles.js"></script>
 
 

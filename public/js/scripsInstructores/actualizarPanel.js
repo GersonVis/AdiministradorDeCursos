@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
   //  parteFormularioTexto = parteFormulario()
     var parteFormularioInstructores, dentroInstructores
     var botonFormulario
-    [parteFormularioInstructores, dentroInstructores] = contenedorConTitulo("Enlazar instructores")
+    [parteFormularioInstructores, dentroInstructores] = contenedorConTitulo("Enlazar Instructor")
 
 
     var idFormulario="formularioCrear"
     var textoFormulario, textoDentro
-    [textoFormulario, textoDentro] = contenedorConTitulo("Datos curso")
+    [textoFormulario, textoDentro] = contenedorConTitulo("Datos instructor")
    
   
     textoDentro.style.display="flex"

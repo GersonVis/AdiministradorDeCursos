@@ -13,7 +13,12 @@ class Curso extends Controller
         $this->view->instructores = $this->modelo->todos();
         $this->view->columnas = $this->modelo->columnas();
         unset($this->view->columnas[0]);
-        $this->view->Renderizar("$vista");
+        if($_SESSION['grado']=="1"){
+            $this->view->Renderizar("$vista");
+            exit();
+        }
+        $this->view->Renderizar("curso/indexinvitado");
+        exit();
     }
     function informacionPorUrl($posicion)
     {

@@ -30,6 +30,7 @@ eventoBotonEliminarInstructor=(elemento, padre)=>{
     data.append(identificadorPrincipal, opcionSeleccionada.attributes.idsql.value)
     consulta(urlBase+"/desenlazar", data)
     .then(respuesta=>{
+        console.log(respuesta.text())
         if(respuesta.status=="200"){
             alert("Se ha quitado el instructor correctamente")
             

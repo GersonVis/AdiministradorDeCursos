@@ -145,10 +145,40 @@ class maestroModelo extends Model{
   
     function desenlazar($idCurso, $idInstructor)
     {
+      $sqlConsulta = "select * from tomoCurso";
       $conexion = $this->bd->conectar();
+      $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+      $registro=$informacion[0];
+      $idTC=$registro['id']['valor'];
+    
+      $sqlConsulta = "DELETE FROM asistencia WHERE asistencia.idTomoCurso = $idTC";
+      echo $sqlConsulta;
+      $resultado = $this->bd->consulta($conexion, $sqlConsulta);
       $sqlConsulta = "delete from $this->tablaEnlazada where idCurso=$idCurso and $this->identificador=$idInstructor";
       $resultado = $this->bd->consulta($conexion, $sqlConsulta);
-      return $resultado;
+      echo var_dump($resultado);
+     
+
+
+      return $informacion;
+
+      
+    /*  $conexion = $this->bd->conectar();
+      $sqlConsulta = "select * from tomoCurso where idCurso=$idCurso and idInstructor=$idInstructor";
+      $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+      $registro=$informacion[0];*/
+
+/*
+      $idTomoCurso=$registro['id']['valor'];
+      echo var_dump($idTomoCurso);
+
+      $sqlConsulta = "delete from asistencia where idTomoCuso=$idTomoCurso";
+      $resultado = $this->bd->consulta($conexion, $sqlConsulta);
+      echo var_dump($registro);
+
+      $sqlConsulta = "delete from $this->tablaEnlazada where idCurso=$idCurso and $this->identificador=$idInstructor";
+      $resultado = $this->bd->consulta($conexion, $sqlConsulta);
+      return $resultado;*/
     }
     function cursosDisponibles($idInstructor)
     {
