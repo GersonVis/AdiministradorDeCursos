@@ -48,7 +48,10 @@ class Archivo extends Controller
         $idCurso=$_POST['idCurso'];
         $idConjunto=$_POST['idConjunto'];
         $errores=0;
+        $this->modelo->registrarEstadoDelConjunto($idConjunto, $idCurso, $cuenta['id'], 1);
         foreach($_FILES as $identificador=>$archivo){
+            //recorre todos los archivos enviados en el formulario y guarda un  registro en la base de datos
+            //cada regsitro lleva el usuario que lo subio, nombre del archivo y ruta
             $archivo = $archivo;
             $rutaLocal = $_SESSION["carpeta"];
             $nombre=basename($archivo["name"]);
@@ -93,41 +96,57 @@ class Archivo extends Controller
             }
         }
         http_response_code(404);
-
-    /*    $respuesta = $this->modelo->eliminar($_POST['id']);
-        if (!$respuesta) {
-            echo $respuesta->error;
-            http_response_code(404);
-            exit();
+    }
+    private function informacionArchivos($usuario, $idCurso, $idConjunto, $idRol){
+        $registroArchivos=$this->modelo->consultarArchivosGrupo($usuario, $idCurso, $idConjunto);
+        foreach($registroArchivos as $etiqueta=>$datos){
+             $idArchivo=$datos['id']['valor'];
+             $permisos=$this->modelo->consultarPermiso($idArchivo, $idRol);
+             $datos["permisoEliminar"]=array("valor"=>count($permisos)==true);
+             $datos["permisoModificar"]=array("valor"=>($idRol)==1);
+             $registroArchivos[$etiqueta]=$datos;
+           
         }
-        $informacion = $this->modelo->obtenerInformacion($_POST['id']);
-        if ($informacion->num_rows() != 0) {
-            http_response_code(404);
-            exit();
-        }*/
+        echo json_encode($registroArchivos);
+        exit();
     }
     function registroArchivosSubidos(){
         $usuario=$_SESSION['id'];
         $idCurso=$_POST['idCurso'];
         $idConjunto=$_POST['idConjunto'];
         $idRol=$_SESSION['idRol'];
-       try{
-           // echo json_encode($this->modelo->consultarArchivosGrupo($usuario, $idCurso, $idConjunto));
-           $registroArchivos=$this->modelo->consultarArchivosGrupo($usuario, $idCurso, $idConjunto);
-           foreach($registroArchivos as $etiqueta=>$datos){
-                $idArchivo=$datos['id']['valor'];
-                $permisos=$this->modelo->consultarPermiso($idArchivo, $idRol);
-                $datos["permiso"]=array("valor"=>count($permisos)?"true":"false");
-                $registroArchivos[$etiqueta]=$datos;
-              
-           }
-           echo json_encode($registroArchivos[0]);
-        } catch(ValueError $e){
+        if($idRol!=1){
+            try{
+               $this->informacionArchivos($usuario, $idCurso, $idConjunto, $idRol);
+             } catch(ValueError $e){
+                 http_response_code(404);
+                 echo "{error:\"ocurrio un error, con la peticion\"}";
+             }
+             exit();
+        }
+        $idCuenta=$_POST['idCuenta'];
+        try{
+            $this->informacionArchivos($idCuenta, $idCurso, $idConjunto, $idRol);
+         } catch(ValueError $e){
+             http_response_code(404);
+             echo "{error:\"ocurrio un error, con la peticion\"}";
+         }
+         exit();
+    }
+    function estadoDelConjunto(){
+        /* 
+           Solicitar a la base de datos si el conjunto CVV o evidencias esta liberado
+        */
+        $idUsuario=$_POST['idMaestro'];
+        $idCurso=$_POST['idCurso'];
+        $idConjunto=$_POST['idConjunto'];
+        try{
+            echo json_encode($this->modelo->estadoDelConjunto($idUsuario, $idConjunto, $idCurso));
+        }catch(Error $error){
             http_response_code(404);
-            echo "{error:\"ocurrio un error, con la peticion\"}";
+            echo "{error: \"Error al solicitar\"}";
             exit();
         }
-       
+        
     }
-
 }

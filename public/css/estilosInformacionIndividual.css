@@ -14,6 +14,7 @@
 
 #menuIndividuo {
     width: 30%;
+    min-width: 280px;
 }
 
 #menuIndividuo li {
@@ -23,7 +24,10 @@
 .individuoDivision  {
     height: 100%;
 }
-
+.individuoDivisionInformacion{
+    width: 100%;
+    overflow: auto;
+}
 
 .subMenuIndividuo {}
 
@@ -76,4 +80,12 @@
 }
 .botonCerrar:hover::after{
    border: 1px  solid;
+}
+#informacionIndividuoDerecha{
+    height: 100%;
+    overflow: auto;
+    width: 100%;
+}
+#listaDatosIndividuo{
+    padding-top: 50px;
 }

@@ -105,17 +105,17 @@ $botonSalir = new BotonSalir();
                     <ul id="botonInstructoresAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
                         <p>Instructores impartiendo el curso</p>
                     </ul>
-                    <ul id="botonMaestrosAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
+                   <!-- <ul id="botonMaestrosAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
                         <p>Maestros registrados en curso</p>
-                    </ul>
+                    </ul>-->
                     <ul id="botonLiberacionCurso" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
                         <p>Solicitar liberacion del curso</p>
                     </ul>
                 </li>
             </div>
-            <div id="informacionIndividuo" class="individuoDivision ocuparDisponible colorSecundario redondearDos">
+            <div id="informacionIndividuoDerecha" class="">
 
-                <ul id="listaDatosIndividuo" class="expandirAmbos flexCentradoC listaSinEstilo posicionRelativa">
+                <ul id="listaDatosIndividuo" class="">
                     <?php
                     for ($t = 0; $t < 5; $t++) {
                         echo $datoIndividuo->codigoHTML();
@@ -161,7 +161,7 @@ $botonSalir = new BotonSalir();
     <script src="/public/js/ComponentWeb/PanelSubirArchivo.js"></script>
     
     <script>
-      
+         var idIdentificador=<?php echo $_SESSION['id'];?>
     </script>
     
 </body>

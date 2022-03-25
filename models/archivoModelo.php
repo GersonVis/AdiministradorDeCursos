@@ -98,6 +98,20 @@ class ArchivoModelo extends Model
   //  $this->registrarPermiso($idArchivo, $idCuenta['idRol']);
     return $this->registrarPermiso($idArchivo, $cuenta['idRol']);
   }
+  function registrarEstadoDelConjunto($idConjunto, $idCurso, $idUsuario, $estado){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "delete from estadoConjunto where  idConjunto=$idConjunto and idUsuario=$idUsuario and idCurso=$idCurso";
+    $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
+    if (!$consulta = $conexion->prepare("insert into estadoConjunto values(null, ?, ?, ?, ?)")) {
+      echo "error al registrar estado de conjunto";
+      exit();
+      return false;
+    }
+    $consulta->bind_param("ssss", $idConjunto, $idCurso, $idUsuario, $estado);
+    $consulta->execute();
+   
+    return true;
+  }
   function consultarArchivosGrupo($usuario, $idCurso, $idConjunto){
     //trae los datos que coincidan en curso, usuario, conjunto
     $conexion = $this->bd->conectar();
@@ -120,6 +134,12 @@ class ArchivoModelo extends Model
   function consultarPermiso($idArchivo, $idRol){
     $conexion = $this->bd->conectar();
     $sqlConsulta = "select * from permiso where idArchivo=$idArchivo and idRol=$idRol";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return  $informacion;
+  }
+  function estadoDelConjunto($idUsuario, $idConjunto, $idCurso){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "select tp.estado from estadoconjunto as ec JOIN tipoestado as tp ON ec.idEstado=tp.id where ec.idUsuario=$idUsuario and ec.idCurso=$idCurso and idConjunto=$idConjunto;";
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return  $informacion;
   }

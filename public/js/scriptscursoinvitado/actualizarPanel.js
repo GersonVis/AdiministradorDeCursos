@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
                     datosJSON.forEach(datos=>{
                         ({interfaz, botonEliminar}=interfazInstructorEnlace(datos, ['id', 'nombre', 'rfc']))
                             interfaz.addEventListener('click', function(){
+                            
                                 clickOpcionEnlace(this)
                             })
                             dentroInstructores.appendChild(interfaz)
@@ -119,7 +120,7 @@ function actualizarPanel(datos, funcionCrear) {
         contenedorOpcionesDirecto.appendChild(interfaz)
         interfaz.addEventListener('click', function () {
             opcionClick(this)
-            opcionSeleccionada=interfaz.attributes.idsql.value
+            opcionSeleccionada=interfaz//.attributes.idsql.value
         })
         
     })

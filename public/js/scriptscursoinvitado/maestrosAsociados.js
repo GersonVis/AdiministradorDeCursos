@@ -1,14 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
 botonMaestrosAsociados.addEventListener("click", function(){
     informacion = new FormData();
     informacion.append('curso', opcionSeleccionada.attributes.idsql.value)

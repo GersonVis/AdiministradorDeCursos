@@ -1,6 +1,9 @@
+.divPSA{
+    margin: 0px 0 40px 0px;
+}
 .divPSAPadre {
     width: 100%;
-
+    max-width: 540px;
 }
 
 .divPSAPadreTitulo {
@@ -103,4 +106,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+}
+.estadoConjunto{
+    left: 3px;
 }

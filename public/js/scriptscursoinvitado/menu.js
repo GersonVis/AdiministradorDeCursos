@@ -1,5 +1,5 @@
 const opcionesMenu = document.querySelectorAll('.opcionMenu')
-var opcionSeleccionada = ""
+//var opcionSeleccionada = ""
 const efectoSeleccionado = `
 <div id="botonIr" class="opcionSeleccionada rotarAnimacion cuadradoChico redondear  colorPrimario flexCentradoR"><img src="/public/imagenes/right-arrow.png" alt="" class="unQuinto"></div>
          
