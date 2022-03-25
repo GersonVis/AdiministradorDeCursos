@@ -14,7 +14,6 @@ botonesEliminar.forEach(elemento=>{
 
 async function procesoDeEliminacion(elemento){
       resultado=await eliminarInstructor(elemento.attributes.idsql.value)
-      console.log(resultado.text())
       if(resultado.status==200){
         actualizarInterfazEliminacion(elemento)
       }
@@ -31,5 +30,6 @@ async function eliminarInstructor(id){
          method: "POST",
          body: datos
      })
+     console.log(resultado.text())
      return resultado
 }

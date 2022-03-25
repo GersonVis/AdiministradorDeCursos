@@ -38,6 +38,7 @@ $botonSalir = new BotonSalir();
     <link rel="stylesheet" href="/public/css/estilosBusqueda.css">
     <link rel="stylesheet" href="/public/css/estilosInstructoresAsociados.css">
     <link rel="stylesheet" href="/public/css/estilosenlazarInstructoresDisponibles.css">
+    <link rel="stylesheet" href="/public/css/listaSecciones.css">
 
 </head>
 
@@ -49,7 +50,7 @@ $botonSalir = new BotonSalir();
         ?>
 
         <div class="ocuparDisponible displayFlexC cuartoColor">
-            <footer id="arribaParte" class="expandirW flexCentradoR">
+            <footer id="arribaParte" class="expandirW flexCentradoR posicionRelativa">
                 <!--tener en cuenta que cada "name" debe ser una propiedad de la tabla consultada-->
                 <div class="divBusqueda expandirAmbos flexCentradoR">
                     <form action="<?php echo $this->nombre; ?>/busqueda" id="formularioBusqueda" class="expandirAmbos flexCentradoC" method="POST">
@@ -64,7 +65,12 @@ $botonSalir = new BotonSalir();
                         </div>
                     </form>
                 </div>
-
+                <div id="divSecciones" class="posicionAbsoluta redondear">
+                    <select id="listaSecciones" class="colorPrimario redondear">
+                        <option value="1">Windows Vista</option>
+                        <option value="2">Windows 7</option>
+                    </select>
+                </div>
             </footer>
 
 
@@ -128,16 +134,12 @@ $botonSalir = new BotonSalir();
         </section>
         <section id="sectionCrearInstructor" class="expandirAmbos posicionAbsoluta flexCentradoR colorCuarto">
             <section id="sectionCrear" class=" flexCentradoR colorSecundario redondearDos posicionRelativa">
-
                 <div id="individuoCrear" class="individuoDivision ocuparDisponible colorSecundario redondearDos barraDeDesplazamiento">
-
-
-
-
                 </div>
                 <button type="button" value="cerrar" id="botonCerrarCrear" class="botonCerrar redondearDos colorPrimario posicionAbsoluta">Cerrar</button>
             </section>
         </section>
+
         <?php
         echo $botonSalir->codigoHTML();
         ?>
@@ -159,8 +161,11 @@ $botonSalir = new BotonSalir();
     <script src="/public/js/scriptsMaestro/busquedaInstructor.js"></script>
     <script src="/public/js/scriptsMaestro/mostrarInstructoresAsociados.js"></script>
     <script src="/public/js/scriptsMaestro/asociarInstructores.js"></script>
+    <script src="/public/js/scriptsMaestro/opcionesSeleccion.js"></script>
+
     <script>
-        function hacerPorCookie(){
+        // setInterval(() => elem.setAttribute('datetime', new Date()), 1000); // (5)
+        function hacerPorCookie() {
             <?php
             if ($opcionSeleccionada != "") {
                 echo "opcionSeleccionada = $opcionSeleccionada

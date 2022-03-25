@@ -13,7 +13,11 @@ class Curso extends Controller
         $this->view->instructores = $this->modelo->todos();
         $this->view->columnas = $this->modelo->columnas();
         unset($this->view->columnas[0]);
-        if($_SESSION['grado']=="1"){
+        if(!isset($_SESSION['idRol'])){
+            header("Location: /session");
+            exit();
+        }
+        if($_SESSION['idRol']=="1"){
             $this->view->Renderizar("$vista");
             exit();
         }
@@ -73,6 +77,11 @@ class Curso extends Controller
         $arrayDatos['id'] = $_POST['id'];
         $arrayDatos['columna'] = $_POST['columna'];
         $arrayDatos['nuevo'] = $_POST['nuevo'];
+        if($arrayDatos['id']=="" || !is_numeric($arrayDatos['id'])){
+            http_response_code(404);
+            echo "error en el id";
+            exit();
+        }
         if (!$this->modelo->actualizar($arrayDatos)) {
             http_response_code(404);
             echo " no se pudo actualizar";

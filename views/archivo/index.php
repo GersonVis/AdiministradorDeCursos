@@ -50,15 +50,7 @@ $botonSalir = new BotonSalir();
 
                 <div class="divBusqueda expandirAmbos flexCentradoR">
                     <form action="/curso/busqueda" id="formularioBusqueda" class="expandirAmbos flexCentradoC" method="POST">
-                        <div class="busquedaBarra flexCentradoR">
-                            <input id="buscar" type="text" name="valor" class="colorCuarto redondear">
-                            <input id="botonEnviar" type="button" class="colorPrimario redondear" value="">
-                        </div>
-                        <div class="busquedaOpciones flexCentradoR">
-                            <input id="rfc" name="nombreCurso" type="checkbox" value="1"><label for="rfc">Nombre</label></input>
-                            <input id="id" name="id" type="checkbox" value="1"><label for="id">ID</label></input>
-                            <input id="nombre" name="claveCurso" type="checkbox" value="1" checked><label for="rfc">Clave</label></input>
-                        </div>
+                        
                     </form>
                 </div>
 
@@ -166,7 +158,7 @@ $botonSalir = new BotonSalir();
     <script src="/public/js/scriptsarchivo/eliminarIndividuo.js"></script>
     <script src="/public/js/scriptsarchivo/crearInstructor.js"></script>
     <script src="/public/js/scriptsarchivo/actualizarInstructor.js"></script>
-    <script src="/public/js/scriptsarchivo/busquedaInstructor.js"></script>
+   <!-- <script src="/public/js/scriptsarchivo/busquedaInstructor.js"></script>-->
     <!--<script src="/public/js/scriptsarchivo/mostrarInstructoresAsociados.js"></script>
     <script src="/public/js/scriptsarchivo/asociarInstructores.js"></script>
     < <script src="/public/js/scriptscurso/panelDeElementos.js"></script>

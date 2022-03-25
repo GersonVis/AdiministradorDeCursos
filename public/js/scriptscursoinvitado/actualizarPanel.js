@@ -119,6 +119,7 @@ function actualizarPanel(datos, funcionCrear) {
         contenedorOpcionesDirecto.appendChild(interfaz)
         interfaz.addEventListener('click', function () {
             opcionClick(this)
+            opcionSeleccionada=interfaz.attributes.idsql.value
         })
         
     })

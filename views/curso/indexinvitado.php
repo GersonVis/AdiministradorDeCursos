@@ -36,6 +36,7 @@ $botonSalir = new BotonSalir();
     <link rel="stylesheet" href="/public/css/estilosenlazarInstructoresDisponibles.css">
     <link rel="stylesheet" href="/public/css/estilosEnlazadoPrincipal.css">
     <link rel="stylesheet" href="/public/css/estilosAsistencia.css">
+    <link rel="stylesheet" href="/public/css/estilosPanelSubirArchivo.css">
 </head>
 
 <body>
@@ -107,6 +108,9 @@ $botonSalir = new BotonSalir();
                     <ul id="botonMaestrosAsociados" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
                         <p>Maestros registrados en curso</p>
                     </ul>
+                    <ul id="botonLiberacionCurso" class="subMenuOpcion subMenu opcionIndividuo flexCentradoR redondearDos">
+                        <p>Solicitar liberacion del curso</p>
+                    </ul>
                 </li>
             </div>
             <div id="informacionIndividuo" class="individuoDivision ocuparDisponible colorSecundario redondearDos">
@@ -138,7 +142,7 @@ $botonSalir = new BotonSalir();
 
     <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>
     <script src="/public/js/interfaces/elementos.js"></script>
-
+     
     <!--en este script se encuentran las bases para adaptar la vista sin cambiar la logica-->
     <script src="/public/js/scriptscursoinvitado/instructorBases.js"></script>
     <!--fin-->
@@ -151,9 +155,10 @@ $botonSalir = new BotonSalir();
     <script src="/public/js/scriptscursoinvitado/actualizarInstructor.js"></script>
     <script src="/public/js/scriptscursoinvitado/busquedaInstructor.js"></script>
     <script src="/public/js/scriptscursoinvitado/mostrarInstructoresAsociados.js"></script>
-    <script src="/public/js/scriptscursoinvitado/asociarInstructores.js"></script>
+    <!--<script src="/public/js/scriptscursoinvitado/asociarInstructores.js"></script>-->
+    <script src="/public/js/scriptscursoinvitado/liberacionCurso.js"></script>
   <!--  <script src="/public/js/scriptscurso/panelDeElementos.js"></script>-->
-    <script src="/public/js/scriptscursoinvitado/maestrosAsociados.js"></script>
+    <script src="/public/js/ComponentWeb/PanelSubirArchivo.js"></script>
     
     <script>
       

@@ -14,6 +14,7 @@ var liberado=""
 var dataCursoMaestro=""
 var cursoSeleccionado=""
 
+
 //fin variables globales
 function metodoActualizarPanel(){
     contenedorOpcionesDirecto.innerHTML=""

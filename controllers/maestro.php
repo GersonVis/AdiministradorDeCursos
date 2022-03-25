@@ -54,9 +54,12 @@ class Maestro extends Controller{
         $datos['sexo']=$_POST['sexo'];
         $datos['correo']=$_POST['correo'];
         $datos['domicilio']=$_POST['domicilio'];
-        $cursosAEnlazar = json_decode($_POST['cursos']);
+        $datos['idCarrera']=$_POST['idCarrera'];
+        $cursosAEnlazar = isset($_POST['cursos'])?json_decode($_POST['cursos']):array();
+        echo var_dump($cursosAEnlazar);
         if (!$this->modelo->crear($datos, $cursosAEnlazar)) {
             http_response_code(404);
+            exit();
         }
         echo "creado correctamente";
     }

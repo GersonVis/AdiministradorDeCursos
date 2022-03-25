@@ -19,7 +19,7 @@ function metodoActualizarPanel(){
     contenedorOpcionesDirecto.innerHTML=""
     solicitarDatosJSON(urlBase + "/todos")
         .then(datos => {
-            console.log(datos)
+           
             actualizarPanel(datos, crearPrincipal)
         })
 }

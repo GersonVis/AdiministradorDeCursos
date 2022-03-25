@@ -52,6 +52,18 @@ async function enviarFormulario(idFormulario){
     
     return respuesta
 }
+function pr(){
+    alert("hola")
+}
+async function enviarFormularioConElemento(formulario){
+    let data=new FormData(formulario)
+    let respuesta =await fetch(formulario.action, {
+        method: formulario.method,
+        body:data
+    })
+    
+    return respuesta
+}
 function crearAtributo(nombre, valor){
      let atributo=document.createAttribute(nombre)
      atributo.value=valor

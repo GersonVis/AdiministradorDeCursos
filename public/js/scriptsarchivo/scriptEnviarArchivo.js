@@ -1,7 +1,9 @@
 botonSubirArchivo.addEventListener("click", function(){
     enviarFormulario("formularioSubirArchivo")
+    .then(respuesta=>respuesta.text())
     .then(respuesta=>{
-        console.log(respuesta.text())
+        metodoActualizarPanel()
+        alert(respuesta)
     })
     .catch(error=>{
         console.log(error)

@@ -1,53 +1,59 @@
 <?php
 class Database
 {
-    private $host;
-    private $db;
-    private $user;
-    private $password;
-    private $charset;
-    public function __construct()
-    {
-        $this->host=constant('HOST');
-        $this->db=constant('DB');
-        $this->user=constant('USER');
-        $this->password=constant('PASSWORD');
-        $this->charset=constant('CHARSET');
+  private $host;
+  private $db;
+  private $user;
+  private $password;
+  private $charset;
+  public function __construct()
+  {
+    $this->host = constant('HOST');
+    $this->db = constant('DB');
+    $this->user = constant('USER');
+    $this->password = constant('PASSWORD');
+    $this->charset = constant('CHARSET');
+  }
+  function conectar()
+  {
+    $conexion = new mysqli('localhost', $this->user, $this->password, $this->db);
+    if ($conexion->connect_errno) {
+      exit();
+      return '';
     }
-    function conectar(){
-        $conexion = new mysqli('localhost', $this->user, $this->password, $this->db);
-        if($conexion->connect_errno){
-            exit();
-            return '';
-        }
-        return $conexion;
-    }
-    function consulta($conexion, $sqlConsulta){
-        $respuesta=$conexion->query($sqlConsulta);
-        return $respuesta;
-    }
-    function tiposDeDatoConsulta($conexion, $sqlConsulta){
-      $resultado = $conexion->query($sqlConsulta);
-      
-      $datosColumna = $resultado->fetch_fields();
-      $columnasAsociadas = array();
-      foreach ($datosColumna as $valor) {
-        $columnasAsociadas[$valor->name] = $this->tiposDeDato($valor->type);
-      }
+    return $conexion;
+  }
+  function consulta($conexion, $sqlConsulta)
+  {
+    $respuesta = $conexion->query($sqlConsulta);
+    return $respuesta;
+  }
+  function tiposDeDatoConsulta($conexion, $sqlConsulta)
+  {
+    $resultado = $conexion->query($sqlConsulta);
 
-      $informacion = array();
-      while ($item = mysqli_fetch_assoc($resultado)) {
-        $itemFabricado = array();
-        foreach ($item as $etiqueta => $valor) {
-          $itemFabricado[$etiqueta] = array("valor" => $valor, "tipo" => $columnasAsociadas[$etiqueta]);
-        }
-        $informacion[] = $itemFabricado;
-      }
-      return $informacion;
+    $datosColumna = $resultado->fetch_fields();
+    $columnasAsociadas = array();
+    // echo var_dump($datosColumna);
+    foreach ($datosColumna as $valor) {
+      $columnasAsociadas[$valor->name] = array("tipo" => $this->tiposDeDato($valor->type), "otro" => $valor);
     }
+    // echo var_dump($datosColumna);
+    $informacion = array();
+    while ($item = mysqli_fetch_assoc($resultado)) {
+      $itemFabricado = array();
+      foreach ($item as $etiqueta => $valor) {
+        $reasignar = array("valor" => $valor, "tipo" => $columnasAsociadas[$etiqueta]["tipo"]);
+        $total = array_merge($reasignar, (array)$columnasAsociadas[$etiqueta]["otro"]);
+        $itemFabricado[$etiqueta] = $total;
+      }
+      $informacion[] = $itemFabricado;
+    }
+    return $informacion;
+  }
 
-    
-    function tiposDeDato($valor)
+
+  function tiposDeDato($valor)
   {
     switch ($valor) {
       case MYSQLI_TYPE_DECIMAL:
@@ -86,4 +92,5 @@ class Database
         return 'text';
     }
   }
+ 
 }

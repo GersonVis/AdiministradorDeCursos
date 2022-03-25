@@ -35,6 +35,9 @@ $botonSalir = new BotonSalir();
     <link rel="stylesheet" href="/public/css/estilosenlazarInstructoresDisponibles.css">
     <link rel="stylesheet" href="/public/css/estilosEnlazadoPrincipal.css">
     <link rel="stylesheet" href="/public/css/estilosAsistencia.css">
+
+
+    <link rel="stylesheet" href="/public/css/CambiosInput/CambiosInput.css">
 </head>
 
 <body>
@@ -111,9 +114,9 @@ $botonSalir = new BotonSalir();
                     </ul>
                 </li>
             </div>
-            <div id="informacionIndividuo" class="individuoDivision ocuparDisponible colorSecundario redondearDos">
-
-                <ul id="listaDatosIndividuo" class="expandirAmbos flexCentradoC listaSinEstilo posicionRelativa">
+            <div id="informacionIndividuo" style="padding: 0 0 0 0;"class="individuoDivision posicionRelativa ocuparDisponible colorSecundario redondearDos barras">
+                <div style="height: 10%"></div>
+                <ul id="listaDatosIndividuo" class="flexCentradoC listaSinEstilo">
                     <?php
                     for ($t = 0; $t < 5; $t++) {
                         echo $datoIndividuo->codigoHTML();
@@ -121,7 +124,7 @@ $botonSalir = new BotonSalir();
                     ?>
                 </ul>
                 <!--    <input type="submit" value="Guardar">-->
-
+                <div style="height: 2%"></div>
             </div>
             <button type="button" value="cerrar" id="botonCerrarInformacion" class="botonCerrar redondearDos colorPrimario posicionAbsoluta">Cerrar</button>
         </section>
@@ -144,6 +147,8 @@ $botonSalir = new BotonSalir();
         ?>
     </div>
 
+    <script src="/public/js/ComponentWeb/CambiosInput.js"></script>
+    <script src="/public/js/metodos/actualizarRegistro.js"></script>
     <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>
     <script src="/public/js/interfaces/elementos.js"></script>
 

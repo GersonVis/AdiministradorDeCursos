@@ -4,7 +4,7 @@ botonCerrarEnlazadoPrincipal.addEventListener("click", function () {
 })
 var divEnlazadoPrincipal, secundario
 [divEnlazadoPrincipal, secundario] = crearInterfazEnlazadoPrincipal()
-console.log(secundario)
+
 
 
 divInformacionPrincipalEnlazado.appendChild(divEnlazadoPrincipal)
@@ -85,7 +85,6 @@ function crearInterfazEnlazadoPrincipal() {
     
     })
 
-    console.log(elemento)
     return [elementoPadre, elemento]
 
 }

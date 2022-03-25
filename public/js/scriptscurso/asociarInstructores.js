@@ -73,7 +73,7 @@ function enlazarInstructoresDisponibles() {
         width: "50px",
         height: "50px",
         right: "30px",
-        bottom: "100px",
+        bottom: "30px",
         "border-radius": "50%",
     }
     estilosPadre = {

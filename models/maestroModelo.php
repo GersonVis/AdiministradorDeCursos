@@ -73,8 +73,28 @@ class maestroModelo extends Model{
       $resultado = $this->bd->consulta($con, "SHOW COLUMNS FROM $this->tablaPrincipal");
       $etiquetas = array();
       while ($item = mysqli_fetch_assoc($resultado)) {
-        $etiquetas[$item['Field']] = array("valor" => "",  "tipo" => $this->convertirdorIipo($item['Type']));
+        $datosColumna=array("valor" => "",  "tipo" => $this->convertirdorIipo($item['Type']));
+        $columna=$item['Field'];
+        if($item["Key"]=="MUL"){
+            $datosColumna["tipo"]="enlazada";
+            $respuestaTablaEnlazada=$this->bd->tiposDeDatoConsulta($con, "select 
+            group_concat(kcu.column_name) 
+                  as nombreColumna,
+            fks.referenced_table_name as tablaEnlazada
+            from information_schema.referential_constraints fks
+            join information_schema.key_column_usage kcu
+            on fks.constraint_schema = kcu.table_schema
+            and fks.table_name = kcu.table_name
+            and fks.constraint_name = kcu.constraint_name
+            where kcu.column_name=\"$columna\"
+            group by fks.constraint_name;");
+            $tablaEnlazada=$respuestaTablaEnlazada[0]['tablaEnlazada']['valor'];
+            $datosTablaEnlazada=$this->bd->tiposDeDatoConsulta($con, "select * from $tablaEnlazada");
+            $datosColumna["tablaEnlazada"]=$datosTablaEnlazada;
+        }
+        $etiquetas[$columna] = $datosColumna;
       }
+      
       unset($etiquetas['id']);
       return $etiquetas;
     }
@@ -91,15 +111,18 @@ class maestroModelo extends Model{
     function crear($datos, $cusosAEnlazar)
     {
       $conexion = $this->bd->conectar();
-      if (!$consulta = $conexion->prepare("INSERT INTO $this->tablaPrincipal VALUES (NULL, ?,?,?,?,?,?,?,?,?);")) {
+      if (!$consulta = $conexion->prepare("INSERT INTO $this->tablaPrincipal VALUES (NULL, ?,?,?,?,?,?,?,?,?,?);")) {
         echo "error";
         return false;
       }
-      $consulta->bind_param("sssssssss", $datos['rfc'], $datos['psw'], $datos['nombre'], $datos['apellidoPaterno'], $_POST['apellidoMaterno'], $_POST['telefono'], $_POST['sexo'], $_POST['correo'], $_POST['domicilio']);
+      $consulta->bind_param("ssssssssss", $datos['rfc'], $datos['psw'], $datos['nombre'], $datos['apellidoPaterno'], $datos['apellidoMaterno'], $datos['telefono'], $datos['sexo'], $datos['correo'], $datos['domicilio'], $datos['idCarrera']);
       $consulta->execute();
       $idInsertado = $consulta->insert_id;
+      echo "   $idInsertado<br>";
       foreach ($cusosAEnlazar as $idCurso => $valor) {
-        $this->bd->consulta($conexion, "insert  $this->tablaEnlazada valueS(NULL,  '$idCurso', '$idInsertado')");
+        $sqlConsulta="insert  $this->tablaEnlazada valueS(NULL,  '$idCurso', '$idInsertado', 'noliberado')";
+        echo "<br>$sqlConsulta<br>";
+        $this->bd->consulta($conexion,$sqlConsulta);
       }
       $conexion->close();
       return true;
