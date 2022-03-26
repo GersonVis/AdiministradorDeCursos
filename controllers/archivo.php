@@ -140,11 +140,22 @@ class Archivo extends Controller
         $idUsuario=$_POST['idMaestro'];
         $idCurso=$_POST['idCurso'];
         $idConjunto=$_POST['idConjunto'];
+      //  echo var_dump($_POST);
         try{
-            echo json_encode($this->modelo->estadoDelConjunto($idUsuario, $idConjunto, $idCurso));
+            echo json_encode($this->modelo->estadoDelConjunto($idUsuario, $idConjunto, $idCurso)[0]);
         }catch(Error $error){
             http_response_code(404);
             echo "{error: \"Error al solicitar\"}";
+            exit();
+        }
+        
+    }
+    function listaDeEstadosDelConjunto(){
+        try{
+            echo json_encode($this->modelo->listaDeEstadosDelConjunto());
+        }catch(Error $error){
+            http_response_code(404);
+            echo "{error: \"Error al solicitar$error\"}";
             exit();
         }
         

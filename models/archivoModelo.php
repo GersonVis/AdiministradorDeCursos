@@ -143,4 +143,10 @@ class ArchivoModelo extends Model
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return  $informacion;
   }
+  function listaDeEstadosDelConjunto(){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "select * from tipoestado";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return  $informacion;
+  }
 }

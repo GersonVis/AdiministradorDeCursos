@@ -42,6 +42,7 @@ class PanelSubirArchivo extends HTMLElement {
             })
             .then(respuesta=>respuesta.json())
             .then(jsonInformacion=>{
+                console.log(jsonInformacion)
                 /*
                    la api nos envía informacion de los estados disponibles de los documentos
                 */
@@ -185,7 +186,13 @@ class PanelSubirArchivo extends HTMLElement {
                 padreGlobal.enviarFormularioConElemento(padreGlobal.formularioArchivos)
                     .then(respuesta =>respuesta.text())
                     .then(texto => {
+                        let inputNecesario1, inputNecesario2
+                        inputNecesario1=padreGlobal.formularioArchivos.childNodes[0]
+                        inputNecesario2=padreGlobal.formularioArchivos.childNodes[1]
                         padreGlobal.listaArchivos.innerHTML=""
+                        padreGlobal.formularioArchivos.innerHTML=""
+                        padreGlobal.formularioArchivos.appendChild(inputNecesario1)
+                        padreGlobal.formularioArchivos.appendChild(inputNecesario2)
                         padreGlobal.solicitarArchivos(padreGlobal)
                         alert(texto)
                     })
