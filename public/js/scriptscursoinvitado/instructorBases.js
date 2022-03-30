@@ -1,5 +1,5 @@
-const urlBase="/curso"//url a donde se harán todas las peticiones
-const urlEnlazar="/instructor"
+const urlBase="/maestro"//url a donde se harán todas las peticiones
+const urlEnlazar="/curso"
 const identificadorEnBase="idCurso"
 //variables globales
 var opcionSeleccionada = ""
@@ -17,10 +17,21 @@ var cursoSeleccionado=""
 //fin variables globales
 function metodoActualizarPanel(){
     contenedorOpcionesDirecto.innerHTML=""
-    solicitarDatosJSON(urlBase + "/todos")
-        .then(datos => {
+    informacion=new FormData()
+    informacion.append("idInstructor", idMaestro)
+    fetch(urlBase + "/cursosEnlazados",{
+        method: "POST",
+        body: informacion
+    })
+   /*.then(respuesta=>{
+        console.log(respuesta.text())
+    })*/
+    .then(respuesta=>respuesta.json())
+    .then(datos => {
+        
             actualizarPanel(datos, crearPrincipal)
         })
+        
 }
 
 function crearPrincipal(informacion){

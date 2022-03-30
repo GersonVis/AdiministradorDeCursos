@@ -37,12 +37,13 @@ function agregarEvento(elementos, funcionAgregar, evento="click"){
     })
 }
 async function solicitarPorId(id) {
-    datos = await fetch(urlBase +"/"+id)
+    datos = await fetch( "curso/"+id)
     return datos.json()
 }
 async function actualizarInformacion(id) {
     listaDatosIndividuo.innerHTML = ""
     datos = await solicitarPorId(id)
+
     elementosCreados=[]
     dato=datos[0]
     Object.entries(dato).forEach(([etiqueta, objeto]) => {
@@ -90,7 +91,6 @@ function opcionClick(elemento, hacer) {//eventos lanzados al hacer click en la o
         mostrarInformacion(informacionIndividual)
         agregarClase(elemento, "opcionSeleccionada")
         opcionSeleccionada = elemento
-
         opcionSubMenu=seleccionarOpcion(botonMostrarDatos, opcionSubMenu, "textoSeleccionado")
         clickMostrarDatos(botonMostrarDatos, opcionSeleccionada.attributes["idsql"].value)//botonMostrarDatos es la opcion del submenu
     }else{

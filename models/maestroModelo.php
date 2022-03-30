@@ -163,6 +163,7 @@ class maestroModelo extends Model{
       $sqlConsulta = "SELECT curso.id, curso.claveCurso, curso.nombreCurso from curso join $this->tablaEnlazada on $this->tablaEnlazada.idCurso=curso.id where $this->tablaEnlazada.$this->identificador=$id;";
       $conexion = $this->bd->conectar();
       $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+     
       return $informacion;
     }
   

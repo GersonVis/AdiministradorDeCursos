@@ -35,7 +35,7 @@ $botonSalir = new BotonSalir();
     <link rel="stylesheet" href="/public/css/estilosenlazarInstructoresDisponibles.css">
     <link rel="stylesheet" href="/public/css/estilosEnlazadoPrincipal.css">
     <link rel="stylesheet" href="/public/css/estilosAsistencia.css">
-
+    <link rel="stylesheet" href="/public/css/estilosPanelSubirArchivo.css">
 
     <link rel="stylesheet" href="/public/css/CambiosInput/CambiosInput.css">
 </head>
@@ -146,7 +146,7 @@ $botonSalir = new BotonSalir();
         echo $botonSalir->codigoHTML();
         ?>
     </div>
-
+    <script src="/public/js/ComponentWeb/PanelSubirArchivo.js"></script>
     <script src="/public/js/ComponentWeb/CambiosInput.js"></script>
     <script src="/public/js/metodos/actualizarRegistro.js"></script>
     <script src="/public/js/scriptscurso/funcionesUtiles.js"></script>

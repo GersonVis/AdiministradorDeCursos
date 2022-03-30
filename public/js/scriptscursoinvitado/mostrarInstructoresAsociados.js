@@ -1,10 +1,19 @@
 botonInstructoresAsociados.addEventListener("click", function () {
     informacion = new FormData();
     informacion.append('curso', opcionSeleccionada.attributes.idsql.value)
-    solicitarDatosJSON(urlBase + "/instructoresEnlazados", informacion)
-        .then(datosJSON => {
-            opcionSubMenu=seleccionarOpcion(botonInstructoresAsociados, opcionSubMenu, "textoSeleccionado")
-            
+    opcionSubMenu=seleccionarOpcion(botonInstructoresAsociados, opcionSubMenu, "textoSeleccionado")
+    fetch("curso/instructoresEnlazados",{
+        method: "POST",
+        body: informacion
+    })
+  /*  .then(r=>{
+        console.log(r.text())
+    })*/
+   /* solicitarDatosJSON( + "curso/instructoresEnlazados", informacion)*/
+   .then(r=>r.json()) 
+   .then(datosJSON => {
+       console.log(datosJSON)
+         //   opcionSubMenu=seleccionarOpcion(botonInstructoresAsociados, opcionSubMenu, "textoSeleccionado")
             actualizarInformacionIndividual(datosJSON, listaDatosIndividuo, interfazInstructorAsociado)
         })
 })

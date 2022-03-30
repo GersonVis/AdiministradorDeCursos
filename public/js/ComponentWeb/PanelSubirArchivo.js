@@ -1,4 +1,5 @@
 
+var opd
 class PanelSubirArchivo extends HTMLElement {
     constructor() {
         super()
@@ -6,6 +7,7 @@ class PanelSubirArchivo extends HTMLElement {
         this.renderizado = false
         this.contenedorPrincipal()
         this.contadorArchivos = 0
+        this.informacion=new FormData()
     }
     //funciones reutilizables
     crearImagen(rutaImagen) {
@@ -31,29 +33,88 @@ class PanelSubirArchivo extends HTMLElement {
         return padre
     }
     crearMenuOpciones(contenedorTitulo){
-        if(this.getAttribute("modo")=="invitado"){
-            let informacion=new FormData()
-            informacion.append("idMaestro", this.getAttribute('idMaestro'))
-            informacion.append("idCurso", this.getAttribute('idsql'))
-            informacion.append("idConjunto", this.getAttribute('idConjunto'))
-            fetch("/archivo/estadoDelConjunto", {
-                method: "POST",
-                body: informacion
-            })
+        this.informacion.append("idMaestro", this.getAttribute('idMaestro'))
+        this.informacion.append("idCurso", this.getAttribute('idsql'))
+        this.informacion.append("idConjunto", this.getAttribute('idConjunto'))
+        if(this.getAttribute("modo")=="administrador"){
+            let selectEstados=document.createElement('select')
+            let eventoCambio=()=>{
+                selectEstados.removeEventListener("change", eventoCambio)
+                this.informacion.append("idEstado", selectEstados.value)
+                fetch("/conjunto/cambiarEstado",
+                {
+                    method:"POST",
+                    body: this.informacion
+                })
+                .then(respuesta=>respuesta.json())
+                .then(texto=>{
+                    selectEstados.addEventListener("change", eventoCambio)
+                    alert(texto.respuesta||"Error")
+                })
+                .catch(er=>{
+                    selectEstados.addEventListener("change", eventoCambio)
+                    console.log(er)
+                    alert("Error: "+er)
+                })
+            }
+            selectEstados.addEventListener("change", eventoCambio)
+            contenedorTitulo.appendChild(selectEstados)
+            agregarClases(selectEstados, ['selectPSASelectEstados', 'posicionAbsoluta', 'redondear'])
+            fetch("/conjunto/tiposDeConjunto")
             .then(respuesta=>respuesta.json())
             .then(jsonInformacion=>{
-                console.log(jsonInformacion)
-                /*
-                   la api nos envía informacion de los estados disponibles de los documentos
-                */
-                let estadoConjunto=jsonInformacion.estado.valor
-                contenedorTitulo.innerHTML+=`<label class="estadoConjunto posicionAbsoluta textoTipoD">${estadoConjunto}</label>`
+                let opciones={}
+                opd=opciones
+                jsonInformacion.forEach(datos=>{
+                    let opcion=document.createElement('option')
+                    let id=datos.id.valor
+                    let valor=datos.estado.valor
+                    opciones[id]=opcion
+                    opcion.value=id
+                    opcion.innerText=valor
+                    selectEstados.appendChild(opcion)
+                })
+                fetch("/conjunto/estadoDelConjunto", {
+                    method: "POST",
+                    body: this.informacion
+                })
+            /*    .then(r=>{
+                    console.log(r.text())
+                })*/
+                .then(r=>r.json())
+                .then(jsonDatos=>{
+                    if(jsonDatos.id){
+                        opciones[jsonDatos.id.valor].selected=true
+                    }
+
+                })
+                .catch(er=>{
+                    alert("Error: "+er)
+                })
             })
             .catch(error=>{
+                console.log(error)
                 alert("Error: "+error)
             })
-            
-        }
+            return;   
+        }   
+        fetch("/conjunto/estadoDelConjunto", {
+                method: "POST",
+                body: this.informacion
+            })
+          /*  .then(r=>{
+                console.log(r.text())
+            })*/
+           .then(respuesta=>respuesta.json())
+            .then(jsonData=>{
+                 console.log(jsonData)
+                let estadoRecivido=jsonData.estado?jsonData.estado.valor:""
+                contenedorTitulo.innerHTML+=`<label class="labelPSAEstadoConjunto posicionAbsoluta">${estadoRecivido}</label>`
+            })
+            .catch(error=>{
+                console.log(error)
+                alert("Error: "+error)
+            })
     }
     crearContenedorArchivosAgregados() { //elemento que contiene la interfaz de archivos agregados
         let contenedorBotonesSubirArchivo = document.createElement('div')
@@ -120,7 +181,7 @@ class PanelSubirArchivo extends HTMLElement {
                     formulario: padreGlobal.formularioArchivos,
                     inputArchivo: inputArchivo
                 }
-                archivoInterfaz = padreGlobal.interfazReferenciaAArchivo(nombre, peso, "public/iconos/archivo-agregado.png", padreGlobal.listaArchivos, "visible", function ({ formulario, inputArchivo }) {
+                archivoInterfaz = padreGlobal.interfazReferenciaAArchivo("", nombre, peso, "public/iconos/archivo-agregado.png", padreGlobal.listaArchivos, "visible", function ({ formulario, inputArchivo }) {
                     formulario.removeChild(inputArchivo)
                 }, datosExtra)
                 padreGlobal.listaArchivos.appendChild(archivoInterfaz)
@@ -131,16 +192,24 @@ class PanelSubirArchivo extends HTMLElement {
         return botonAccion
     }
 
-    interfazReferenciaAArchivo(titulo, peso, icono, padre, display = "none", funcionBotonEliminar = function () { }, datosExtra) {//interfaz de cada archivo agregado al formulario
+    interfazReferenciaAArchivo(id, titulo, peso, icono, padre, display = "none", funcionBotonEliminar = function () { }, datosExtra) {//interfaz de cada archivo agregado al formulario
         //crea la interfaz de cada archivo seleccionado, se puede quitar o poner el boton de eliminar con display
         //la function que se pasa en el metodo contiene lo que se hara en el botonEliminar
+        var padreGlobal=this
         let divPrincipal = document.createElement('div')
+        let atributoDiv=document.createAttribute('idsql')
+        let atributoBoton=document.createAttribute('idsql')
         let contenedorImagen = document.createElement('div')
         let imagenIcono = this.crearImagen(icono)
         let tituloBoton = document.createElement('abbr')
         let botonEliminar = document.createElement("button")//elimina el archivo del formulario del formulario
         let imagenBoton = this.crearImagen("public/iconos/basura.png")
         //ediciones directas del elemento
+        botonEliminar.setAttributeNode(atributoBoton)
+        botonEliminar.attributes.idsql.value=id
+
+        divPrincipal.setAttributeNode(atributoDiv)
+        divPrincipal.attributes.idsql.value=id
 
         tituloBoton.innerText = titulo
         tituloBoton.title = peso
@@ -158,11 +227,25 @@ class PanelSubirArchivo extends HTMLElement {
         divPrincipal.appendChild(tituloBoton)
         divPrincipal.appendChild(botonEliminar)
         botonEliminar.appendChild(imagenBoton)
+        
         //quitar elemento visualmente, solicita a la base de datos para remover del registro y servidor
         botonEliminar.addEventListener("click", function () {
-            padreGlobal2 = padre
-            padre.removeChild(divPrincipal)
-
+            padreGlobal.informacion.append("idArchivo", this.attributes.idsql.value)
+            fetch("archivo/eliminar", {
+                method: "POST",
+                body: padreGlobal.informacion
+            }).then(respuesta=>{
+                  if(respuesta.status=="200"){
+                      padreGlobal.listaArchivos.remove(padre)
+                      alert("Eliminado correctamente")
+                      return
+                  }
+                  throw "Error al eliminar"
+            })
+            .catch(error=>{
+                console.log(error)
+                alert("Error: "+error)
+            })
         })
         botonEliminar.addEventListener("click", function () {
             funcionBotonEliminar(datosExtra || "")
@@ -186,6 +269,7 @@ class PanelSubirArchivo extends HTMLElement {
                 padreGlobal.enviarFormularioConElemento(padreGlobal.formularioArchivos)
                     .then(respuesta =>respuesta.text())
                     .then(texto => {
+                        
                         let inputNecesario1, inputNecesario2
                         inputNecesario1=padreGlobal.formularioArchivos.childNodes[0]
                         inputNecesario2=padreGlobal.formularioArchivos.childNodes[1]
@@ -221,25 +305,31 @@ class PanelSubirArchivo extends HTMLElement {
         let informacion = new FormData()
         informacion.append("idCurso", this.getAttribute('idsql'))
         informacion.append("idConjunto", this.getAttribute('idconjunto'))
-
+        informacion.append('idMaestro', this.getAttribute('idMaestro')||1)
+        informacion.append('idMaestro', this.getAttribute('idMaestro')||1)
         fetch(this.getAttribute("urlInformacion"), {
             method: "POST",
             body: informacion
         })
+     /*   .then(r=>{
+            console.log(r.text())
+        })*/
             .then(respuesta => respuesta.json())
             .then(data => {
+                
                 data.forEach(objeto => {
+                    let id=objeto.id.valor
                     let nombre = objeto.nombre.valor
                     let permisoEliminar = objeto.permisoEliminar.valor
                     let permisoModificar = objeto.permisoModificar.valor
                     let archivoInterfaz
-                    archivoInterfaz = padreGlobal.interfazReferenciaAArchivo(nombre, nombre, "public/iconos/archivo-agregado.png", padreGlobal.listaArchivos, (permisoEliminar) ? "visible" : "none")
+                    archivoInterfaz = padreGlobal.interfazReferenciaAArchivo(id, nombre, nombre, "public/iconos/archivo-agregado.png", padreGlobal.listaArchivos, (permisoEliminar) ? "visible" : "none")
                     padreGlobal.listaArchivos.appendChild(archivoInterfaz)
                 })
             })
-            .catch(error => {
-                alert("Error al consultar archivos" + error)
-            })
+          /*  .catch(error => {
+                alert("Error al consultar archivos " + error)
+            })*/
     }
     //metodo que se lanza al añadir al DOM
     renderizar() {
@@ -268,7 +358,7 @@ class PanelSubirArchivo extends HTMLElement {
         this.solicitarArchivos(this)
     }
     static get observedAttributes() {
-        return ['titulo', 'urlEnviar', 'idsql', 'sinboton', 'idMaestro', 'idConjunto']
+        return ['titulo', 'urlEnviar', 'idsql', 'sinboton', 'idMaestro', 'idConjunto', 'modo']
     }
     connectedCallback() {
         if (!this.renderizado) {

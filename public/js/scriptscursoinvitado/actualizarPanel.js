@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
   //  parteFormularioTexto = parteFormulario()
     var parteFormularioInstructores, dentroInstructores
     var botonFormulario
-    [parteFormularioInstructores, dentroInstructores] = contenedorConTitulo("Enlazar instructores")
+    [parteFormularioInstructores, dentroInstructores] = contenedorConTitulo("Cursos disponibles")
    
 
     var idFormulario="formularioCrear"
@@ -17,23 +17,23 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
   
     textoDentro.style.display="flex"
     textoDentro.style.flexDirection="column"
+   
 
-
-    botonFormulario=interfazBoton()
-    botonFormulario.addEventListener('click', function(){
+    botonFormulario=interfazBoton("Tomar cursos")
+   /* botonFormulario.addEventListener('click', function(){
          crearCurso(idFormulario)
-    })
+    })*/
 
     formulario=document.createElement('form')
     formulario.id=idFormulario
     formulario.action=urlBase+"/crear"
     formulario.method="POST"
     
-    textoFormulario.appendChild(formulario)
-    individuoCrear.appendChild(textoFormulario)
+   // textoFormulario.appendChild(formulario)
+   // individuoCrear.appendChild(textoFormulario)
     individuoCrear.appendChild(parteFormularioInstructores)
     individuoCrear.appendChild(botonFormulario)
-    solicitarDatosJSON(urlBase + "/columnasTipo").then(
+   /* solicitarDatosJSON(urlBase + "/columnasTipo").then(
         datosJSON => {
             Object.entries(datosJSON).forEach(([etiqueta, valor]) => {
                 formulario.appendChild(inputFormulario(etiqueta, valor.tipo))
@@ -42,20 +42,43 @@ document.addEventListener("DOMContentLoaded", function () {//se crea la interfaz
            
            
         }
-    )
-    solicitarDatosJSON('/instructor/' + "todos", "")
-                .then(datosJSON => {
-                   
-                    datosJSON.forEach(datos=>{
-                        ({interfaz, botonEliminar}=interfazInstructorEnlace(datos, ['id', 'nombre', 'rfc']))
-                            interfaz.addEventListener('click', function(){
-                            
-                                clickOpcionEnlace(this)
-                            })
-                            dentroInstructores.appendChild(interfaz)
-                    })
-                  //  parteFormularioInstructores.appendChild(interfazInstructor())
+    )*/
+    var datosSolicitudCursos=new FormData()
+    datosSolicitudCursos.append("idMaestro", idMaestro)
+    fetch('/curso/' + "cursosDisponiblesDeTomar",{
+       method: "POST",
+       body: datosSolicitudCursos
+    })
+    .then(respuesta=>respuesta.json())
+    .then(datosJSON => {
+        datosJSON.forEach(datos=>{
+            ({interfaz, botonEliminar}=interfazInstructorEnlace(datos, ['id', 'nombreCurso', 'claveCurso']))
+                interfaz.addEventListener('click', function(){
+                
+                    clickOpcionEnlace(this)
                 })
+                dentroInstructores.appendChild(interfaz)
+            })
+     })
+    .catch(error=>{
+        alert("Error: "+error)
+    })
+   botonFormulario.addEventListener("click", function(){
+       let informacionEnlazar=new FormData()
+       informacionEnlazar.append("idsCursos", JSON.stringify(instructoresEnlace))
+       informacionEnlazar.append("idInstructor", idMaestro)
+       fetch("/maestro/enlazar",{
+           method: "POST",
+           body:informacionEnlazar
+       })
+       .then(respuesta=>respuesta.text())
+       .then(texto=>{
+           console.log(texto)
+       })
+       .catch(error=>{
+           alert("Error: " +error)
+       })
+   })
 })
 async function crearCurso(idFormulario){
     let formulario=document.getElementById(idFormulario)
@@ -70,9 +93,9 @@ async function crearCurso(idFormulario){
     alert("creado")
     return respuesta
 }
-function interfazBoton(){
+function interfazBoton(textoBoton="Crear"){
     elemento=document.createElement('input')
-    elemento.value="Crear"
+    elemento.value=textoBoton
     elemento.type="button"
     elemento.style.width="60%"
     elemento.style.height="40%"
@@ -114,7 +137,7 @@ function contenedorConTitulo(titulo="titulo") {
     return [elemento, elementoHijo]
 }
 function actualizarPanel(datos, funcionCrear) {
- 
+   // console.log(datos)
     datos.forEach(elemento => {
         const { interfaz, botonEliminar } = funcionCrear(elemento)
         contenedorOpcionesDirecto.appendChild(interfaz)

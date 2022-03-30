@@ -36,10 +36,11 @@ class ArchivoModelo extends Model
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return $informacion;
   }
-  function obtenerInformacion($posicion)
+  function obtenerInformacion($idArchivo)
   {
     $conexion = $this->bd->conectar();
-    $sqlConsulta = "select * from archivo where id='$posicion'";
+    $sqlConsulta = "SELECT ca.id as id, ar.id as idArchivo, ar.ruta as ruta, ar.descripcion as descripcion, ar.nombre as nombre from cuentaarchivo as ca JOIN archivo as ar on ca.idArchivo=ar.id where ar.id=$idArchivo;";
+ //   echo $sqlConsulta;
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return $informacion;
   }
@@ -55,11 +56,29 @@ class ArchivoModelo extends Model
     return true;
   }
 
-  function eliminar($id)
+  function eliminar($id, $idCuenta)
   {
     $conexion = $this->bd->conectar();
+
+    $sqlConsulta = "delete from solicitudliberacion where idCuentaArchivo=$idCuenta";
+    $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
+  //  echo $sqlConsulta."<br>";
+  //  echo var_dump($respuesta);
+    
+    $sqlConsulta = "delete from permiso where idArchivo=$id";
+    $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
+ //   echo $sqlConsulta."<br>";
+  //  echo var_dump($respuesta);
+
+    $sqlConsulta = "delete from cuentaarchivo where id=$idCuenta";
+    $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
+   // echo $sqlConsulta."<br>";
+   // echo var_dump($respuesta);
+
     $sqlConsulta = "delete from archivo where id=$id";
     $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
+  //  echo $sqlConsulta."<br>";
+  //  echo var_dump($respuesta);
     return $respuesta;
   }
   function columnas() ///regresa los datos de las columnas que contiene la tabla
@@ -104,13 +123,12 @@ class ArchivoModelo extends Model
     $respuesta = $this->bd->consulta($conexion, $sqlConsulta);
     if (!$consulta = $conexion->prepare("insert into estadoConjunto values(null, ?, ?, ?, ?)")) {
       echo "error al registrar estado de conjunto";
-      exit();
       return false;
+      exit();
     }
     $consulta->bind_param("ssss", $idConjunto, $idCurso, $idUsuario, $estado);
     $consulta->execute();
-   
-    return true;
+    return $consulta;
   }
   function consultarArchivosGrupo($usuario, $idCurso, $idConjunto){
     //trae los datos que coincidan en curso, usuario, conjunto
@@ -139,7 +157,8 @@ class ArchivoModelo extends Model
   }
   function estadoDelConjunto($idUsuario, $idConjunto, $idCurso){
     $conexion = $this->bd->conectar();
-    $sqlConsulta = "select tp.estado from estadoconjunto as ec JOIN tipoestado as tp ON ec.idEstado=tp.id where ec.idUsuario=$idUsuario and ec.idCurso=$idCurso and idConjunto=$idConjunto;";
+    $sqlConsulta = "select tp.id, tp.estado from estadoconjunto as ec JOIN tipoestado as tp ON ec.idEstado=tp.id where ec.idUsuario=$idUsuario and ec.idCurso=$idCurso and idConjunto=$idConjunto;";
+   // echo $sqlConsulta;
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return  $informacion;
   }
@@ -149,4 +168,11 @@ class ArchivoModelo extends Model
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return  $informacion;
   }
+  function consultarCuenta($idMaestro){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta = "select * from maestrocuenta where idMaestro='$idMaestro'";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return  $informacion;
+  }
+ 
 }

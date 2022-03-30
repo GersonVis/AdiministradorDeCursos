@@ -179,9 +179,18 @@ function interfazMaestroAsociado(informacion){
         divInformacionPrincipalEnlazado.innerHTML=""
         divInformacionPrincipalEnlazado.appendChild(divEnlazadoPrincipal)
         maestroSeleccionado=id
-        divInformacionPrincipalEnlazado.innerHTML=""
+        let idIdentificador=maestroSeleccionado
+        divInformacionPrincipalEnlazado.innerHTML=`<panel-subir-archivo titulo="CVV"
+         idMaestro="${maestroSeleccionado}" modo="administrador" 
+         urlInformacion="/archivo/registroArchivosSubidos"
+         urlEnviar="/archivo/liberacionCurso" idConjunto="2" 
+         idsql="${opcionSeleccionada.attributes.idsql.value}"></panel-subir-archivo>
+        <panel-subir-archivo titulo="Ficha técnica" idMaestro="${maestroSeleccionado}" modo="administrador" urlInformacion="/archivo/registroArchivosSubidos"urlEnviar="/archivo/liberacionCurso" idConjunto="7" 
+        idsql="${opcionSeleccionada.attributes.idsql.value}"></panel-subir-archivo>
+        <panel-subir-archivo titulo="Evidencias" idMaestro="${maestroSeleccionado}" modo="administrador" urlInformacion="/archivo/registroArchivosSubidos"urlEnviar="/archivo/liberacionCurso" idConjunto="8" 
+        idsql="${opcionSeleccionada.attributes.idsql.value}"></panel-subir-archivo>`
         divInformacionPrincipalEnlazado.appendChild(divEnlazadoPrincipal)
-      
+        
         actualizarMaestroCurso()
     })
     return {interfaz: elemento, botonEliminar: botonEliminar, botonIr: botonIrAMaestroAsociado}
@@ -198,12 +207,12 @@ function actualizarMaestroCurso(){
         liberado=datosJSON.liberado
         botonLiberar.childNodes[0].src=(datosJSON.liberado.valor=="liberado")?"/public/iconos/candado-abierto.png":"/public/iconos/cerrado.png"
         secundario.innerHTML=""//limpieamos contenedor
-        solicitarDatosJSON(urlBase+"/asistencia", dataCursoMaestro)
+      /*  solicitarDatosJSON(urlBase+"/asistencia", dataCursoMaestro)
         .then(
            respuestaJSON=>{
             actualizarAsistencia(respuestaJSON, secundario)
            }   
-        )
+        )*/
     })
 } 
 actualizarAsistencia=(datosJSON, elementoContenedor)=>{

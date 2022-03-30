@@ -42,7 +42,7 @@ $botonSalir = new BotonSalir();
 <body>
     <div id="contenedorPrincipal" class="expandirAmbos">
         <?php
-        $herramienta1 = $herramienta->codigoHTML("/public/iconos/agregar-usuario.png", "crearInstructor");
+        $herramienta1 = $herramienta->codigoHTML("/public/iconos/agregar-usuario.png", "crearInstructor", "Tomar curso");
         echo $menuLateral->codigoHTML($this->nombre, $herramienta1);
         ?>
 
@@ -161,7 +161,7 @@ $botonSalir = new BotonSalir();
     <script src="/public/js/ComponentWeb/PanelSubirArchivo.js"></script>
     
     <script>
-         var idIdentificador=<?php echo $_SESSION['id'];?>
+         var idIdentificador=<?php echo $_SESSION['id'];?>, idMaestro=<?php echo $_SESSION['idEnlazado'];?>
     </script>
     
 </body>

@@ -68,7 +68,7 @@ function crearInterfazEnlazadoPrincipal() {
     estilosParteBotones += "}"
     parteBotones.classList.add("parteBotones")
     crearEstilo(estilosParteBotones)
-
+    
 
     botonLiberar.addEventListener("click", checarLiberar)
     botonConstancia.addEventListener("click", function(){
@@ -82,7 +82,7 @@ function crearInterfazEnlazadoPrincipal() {
         formulario.target="_blank"
         document.getElementsByTagName("body")[0].appendChild(formulario)
         formulario.submit()
-    
+        
     })
 
     return [elementoPadre, elemento]

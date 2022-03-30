@@ -316,4 +316,23 @@ class CursoModelo extends Model
     $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
     return $informacion;
   }
+  function cursosTomadosPorMaestro($idMaestro){
+    $conexion = $this->bd->conectar();
+    $sqlConsulta="SELECT * from tomocurso join curso on tomocurso.idCurso=curso.id where tomocurso.idMaestro=$idMaestro;";
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return $informacion;
+  }
+  function solicitarCursosDisponibles($idMaestro){
+    $cursosTomados=$this->cursosTomadosPorMaestro($idMaestro);
+    $idCursosTomados="";
+    foreach($cursosTomados as $datos){
+        $idCursosTomados.=$datos['id']['valor'].", ";
+    }
+    $idCursosTomados=substr($idCursosTomados, 0,-2);
+    
+    $sqlConsulta=($idCursosTomados==""?"select * from curso":"select * from curso where id NOT in($idCursosTomados)");
+    $conexion = $this->bd->conectar();
+    $informacion = $this->bd->tiposDeDatoConsulta($conexion, $sqlConsulta);
+    return $informacion;
+  }
 }

@@ -204,4 +204,13 @@ class Curso extends Controller
         $informacion=$this->modelo->asistencia($idMaestro, $idCurso);
         echo json_encode($informacion);
     }
+    function cursosDisponiblesDeTomar(){
+        $idMaestro=$_POST['idMaestro'];
+        try{
+            echo json_encode($this->modelo->solicitarCursosDisponibles($idMaestro));
+        }catch(Error $e){
+            echo "{Erorr: \"Error al solicitar\"}";
+        }
+
+    }
 }

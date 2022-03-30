@@ -48,25 +48,36 @@ class Archivo extends Controller
         $idCurso=$_POST['idCurso'];
         $idConjunto=$_POST['idConjunto'];
         $errores=0;
-        $this->modelo->registrarEstadoDelConjunto($idConjunto, $idCurso, $cuenta['id'], 1);
-        foreach($_FILES as $identificador=>$archivo){
-            //recorre todos los archivos enviados en el formulario y guarda un  registro en la base de datos
-            //cada regsitro lleva el usuario que lo subio, nombre del archivo y ruta
-            $archivo = $archivo;
-            $rutaLocal = $_SESSION["carpeta"];
-            $nombre=basename($archivo["name"]);
-            $ruta = $rutaLocal . $nombre;
-            $descripcion = isset($_POST['descripcion'])?$_POST['descripcion']:"";
-            if(!file_exists($ruta)){
-                if (move_uploaded_file($archivo['tmp_name'], $ruta)) {
-                     if ($this->modelo->registrarSolicitudLiberacion($ruta, $descripcion, $nombre, $cuenta, $idCurso, $idConjunto)) {
-                        continue;  
-                       }
-                   }
-            }
-            $errores++;
+        $rutaCurso = $_SESSION["carpeta"].$idCurso;
+        $rutaConjunto="";
+        
+        if(!file_exists($rutaCurso)){
+            mkdir($rutaCurso, 0700);
         }
-        echo "Han ocurrido ".$errores.($errores==1?" Error": " Errores"); 
+        $rutaConjunto=$rutaCurso."/$idConjunto";
+        if(!file_exists($rutaConjunto)){
+            mkdir($rutaConjunto, 0700);
+        }
+        if($this->modelo->registrarEstadoDelConjunto($idConjunto, $idCurso, $cuenta['id'], 2)){
+            foreach($_FILES as $identificador=>$archivo){
+                //recorre todos los archivos enviados en el formulario y guarda un  registro en la base de datos
+                //cada regsitro lleva el usuario que lo subio, nombre del archivo y ruta
+                $archivo = $archivo;
+               
+                $nombre=basename($archivo["name"]);
+                $ruta = $rutaConjunto . "/$nombre";
+                $descripcion = isset($_POST['descripcion'])?$_POST['descripcion']:"";
+                if(!file_exists($ruta)){
+                    if (move_uploaded_file($archivo['tmp_name'], $ruta)) {
+                         if ($this->modelo->registrarSolicitudLiberacion($ruta, $descripcion, $nombre, $cuenta, $idCurso, $idConjunto)) {
+                            continue;  
+                           }
+                       }
+                }
+                $errores++;
+            }
+            echo "Han ocurrido ".$errores.($errores==1?" Error": " Errores"); 
+        }
     }
 
     function actualizar()
@@ -84,14 +95,15 @@ class Archivo extends Controller
     }
     function eliminar()
     {
-        $id=$_POST['id'];
+        $id=$_POST['idArchivo'];
         $datos = $this->modelo->obtenerInformacion($id);
-        
         if(count($datos)>0){
             $archivo=$datos[0];
-            $rutaArchivo=$archivo['ruta'];
-            if(unlink($rutaArchivo['valor']) && $this->modelo->eliminar($id)){
-                echo "Eliminado correctamente";
+            $rutaArchivo=$archivo['ruta']['valor'];
+            $idCuenta=$archivo['id']['valor'];
+            echo var_dump($idCuenta);
+            if(unlink($rutaArchivo) && $this->modelo->eliminar($id, $idCuenta)){
+                echo json_encode(array("respuesta"=>"Eliminado correctamente"));
                 exit();
             }
         }
@@ -115,7 +127,7 @@ class Archivo extends Controller
         $idCurso=$_POST['idCurso'];
         $idConjunto=$_POST['idConjunto'];
         $idRol=$_SESSION['idRol'];
-        if($idRol!=1){
+        if($idRol!=1){//cuando hace la peticion alguien que no es administrador
             try{
                $this->informacionArchivos($usuario, $idCurso, $idConjunto, $idRol);
              } catch(ValueError $e){
@@ -124,25 +136,37 @@ class Archivo extends Controller
              }
              exit();
         }
-        $idCuenta=$_POST['idCuenta'];
+        $idMaestro=$_POST['idMaestro'];
         try{
-            $this->informacionArchivos($idCuenta, $idCurso, $idConjunto, $idRol);
+            /*Extraemos el id asociado a maestro para poder hacer una consulta */
+            $respuesta=$this->modelo->consultarCuenta($idMaestro);
+            if(count($respuesta)>0){
+                $idCuenta=$respuesta[0]['idUsuario']['valor'];
+                echo json_encode($this->informacionArchivos($idCuenta, $idCurso, $idConjunto, $idRol));
+                exit();
+            }
          } catch(ValueError $e){
              http_response_code(404);
-             echo "{error:\"ocurrio un error, con la peticion\"}";
          }
+         echo "{error:\"ocurrio un error, con la peticion\"}";
          exit();
     }
     function estadoDelConjunto(){
         /* 
            Solicitar a la base de datos si el conjunto CVV o evidencias esta liberado
         */
-        $idUsuario=$_POST['idMaestro'];
+        $idMaestro=$_POST['idMaestro'];
         $idCurso=$_POST['idCurso'];
         $idConjunto=$_POST['idConjunto'];
-      //  echo var_dump($_POST);
+        $respuesta=$this->modelo->consultarCuenta($idMaestro);
         try{
-            echo json_encode($this->modelo->estadoDelConjunto($idUsuario, $idConjunto, $idCurso)[0]);
+            if(count($respuesta)>0){
+                $idCuenta=$respuesta[0]['idUsuario']['valor'];
+                $respueta=$this->modelo->estadoDelConjunto($idCuenta, $idConjunto, $idCurso);
+                echo var_dump($respuesta);
+                echo json_encode(count($respueta)!=0?$respueta[0]:array());
+                exit();
+        }
         }catch(Error $error){
             http_response_code(404);
             echo "{error: \"Error al solicitar\"}";
@@ -160,4 +184,5 @@ class Archivo extends Controller
         }
         
     }
+   
 }

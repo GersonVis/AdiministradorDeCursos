@@ -110,3 +110,11 @@
 .estadoConjunto{
     left: 3px;
 }
+.selectPSASelectEstados{
+    left: 10px;
+    width: 160px;
+}
+.labelPSAEstadoConjunto{
+    left: 10px;
+    width: 160px;
+}
