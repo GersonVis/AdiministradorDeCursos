@@ -16,7 +16,7 @@
 * **Maestro**: Buscar cursos, tomar curso, solicitar la liberación de constacia, ver archivos, subir archivos
 * **Instructor**: Liberar constancia, agregar maestros a curso, eliminar maestros de curso, dar seguimiento del maestro tomando el curso
 * **Administrador**: Crear, editar, eliminar maestros, cambiar contraseñas, quitar instructores, crear cursos
-### Login
+### Registro
 > Se necesita un usario y una contraseña creado por el administrador
 > Puedes usar un usuario de prueba:
 > 
@@ -27,5 +27,10 @@
 > Al ser la primera vez en iniciar sesión con ese usuario, nos permitirá poder cambiar el nombre de usuario que nosotros queramos y una contraseña nueva, la contraseña debe tener un mínimo de 8 dígitos
 
 <img src="https://github.com/GersonVis/AdiministradorDeCursos/blob/master/recursos/Captura.PNG?raw=true"></img>
+
+### Pantalla principal
+> Podremos ver el menú a la izquierda, una barra de búsqueda, un botón para crear un nuevo maestro y el botón rojo para poder eliminar un maestro
+
+<img src="https://github.com/GersonVis/AdiministradorDeCursos/blob/master/recursos/inicio%20portal.PNG?raw=true"></img>
 
 
