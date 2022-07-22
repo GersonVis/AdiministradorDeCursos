@@ -7,7 +7,7 @@
 * HTML5
 * CSS3
 ## Estado
-> El sitio se encuentra en estapa de pruebas
+> El sitio se encuentra en etapa de pruebas
 ## Bugs conocidos
 * La carga de maestros no es óptima
 * Arroja un error al visualizar usuarios, solución: cerrar cuadro de diálogo
