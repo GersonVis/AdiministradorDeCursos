@@ -1,5 +1,9 @@
 # AdiministradorDeCursos
 > Es un sitio de administración de cursos, donde los las personas pueden llevar un seguimiento de los cursos que se van tomando, pasando lista a las personas inscritas en cada curso, al final se solicita una constancia de liberación en donde el instructor tiene la posibilidad de denegar dicha solicitud o aprobar
+## Accesos
+> **url proyecto en producción:** <a href="https://administracion-cursos.herokuapp.com/session">Acceder al sitio</a>
+
+> **Proyecto figma:** <a href="https://www.figma.com/file/KzewcOBusvRN9GwjF5Nrmq/Untitled?node-id=0%3A1">Proyecto figma</a>
 ## Tecnologías utilizadas
 * PHP Version 8.0.14
 * Jasvascript
@@ -9,6 +13,7 @@
 ## Estado
 > El sitio se encuentra en etapa de pruebas
 ## Bugs conocidos
+* La base de datos hace uso de procedimientos almacenados
 * La carga de maestros no es óptima
 * Arroja un error al visualizar usuarios, solución: cerrar cuadro de diálogo
 ## Guía
