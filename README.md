@@ -32,5 +32,11 @@
 > Podremos ver el menú a la izquierda, una barra de búsqueda, un botón para crear un nuevo maestro y el botón rojo para poder eliminar un maestro
 
 <img src="https://github.com/GersonVis/AdiministradorDeCursos/blob/master/recursos/inicio%20portal.PNG?raw=true"></img>
+### Información de los elementos
+> Al hacer click en alguno de los maestros nos desplegará detalles de tal maestro, las acciones posibles son:
+* Actualizar información al pulsar el botón de actualizar, si la información es la misma nos arrojará un mensaje de error
+* Asignar un curso para cada profesor
+* Modificar sus datos de usuario
 
+<img src="https://github.com/GersonVis/AdiministradorDeCursos/blob/master/recursos/informacion%20maestro.PNG?raw=true"></img>
 
